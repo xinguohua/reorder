@@ -141,13 +141,10 @@ protected static String Z3_SMT2 = ".z3smt2";
     List<Entry<String, Object>> list = new ArrayList<Entry<String, Object>>(map.entrySet());
 
     // Sort the list
-    Collections.sort(list, new Comparator<Entry<String, Object>>() {
-      @Override
-      public int compare(Entry<String, Object> o1, Entry<String, Object> o2) {
+    list.sort((o1, o2) -> {
         Comparable value1 = (Comparable) o1.getValue();
         Comparable value2 = (Comparable) o2.getValue();
         return value1.compareTo(value2);
-      }
     });
 
     // Create a list of sorted keys
