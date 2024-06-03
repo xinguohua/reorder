@@ -18,9 +18,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
 
@@ -72,14 +72,14 @@ public class Session {
             loadedEventCount += indexer.metaInfo.rawNodeCount;
 
 
-            Map<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> reorderPairMap = indexer.getReorderPairMap();
-            if (reorderPairMap == null || reorderPairMap.isEmpty()) return;
+            List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderPairMaps = indexer.getReorderPairMap();
+            if (reorderPairMaps == null || reorderPairMaps.isEmpty()) return;
 
             prepareConstraints(indexer);
 
             solver.setCurrentIndexer(indexer);
 
-            List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().entrySet().iterator(), Reorder.PAR_LEVEL);
+            List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().iterator(), Reorder.PAR_LEVEL);
 
             displayRawReorders(rawReorders, indexer, traceLoader);
         }
@@ -186,15 +186,21 @@ public class Session {
     }
 
 
-    public List<RawReorder> solveReorderConstr(final Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Iterator<Map.Entry<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> iter, int limit) {
+    public List<RawReorder> solveReorderConstr(final Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map,
+                                               Iterator<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> iter, int limit) {
+
+        for (ArrayList<AbstractNode> nodes : map.values()) {
+            nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
+        }
 
         CompletionService<RawReorder> cexe = new ExecutorCompletionService<RawReorder>(exe);
+
         int task = 0;
         while (iter.hasNext() && limit > 0) {
             limit--;
-            Map.Entry<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> e = iter.next();
-            final Pair<MemAccNode, MemAccNode> switchPair = e.getKey();
-            final Pair<MemAccNode, MemAccNode> dependPair = e.getValue();
+            Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> e = iter.next();
+            final Pair<MemAccNode, MemAccNode> switchPair = e.key;
+            final Pair<MemAccNode, MemAccNode> dependPair = e.value;
 
             cexe.submit(() -> {
                 ArrayList<String> bugSchedule = solver.searchReorderSchedule(map, switchPair, dependPair);

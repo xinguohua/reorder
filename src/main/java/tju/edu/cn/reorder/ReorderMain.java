@@ -15,7 +15,6 @@ public class ReorderMain {
     private static final Logger LOG = LoggerFactory.getLogger(ReorderMain.class);
 
     public static void main(String[] args) throws Exception {
-
         Configuration config = new Configuration(args);
         extendConfig(config);
         Session s = new Session(config);
@@ -30,9 +29,7 @@ public class ReorderMain {
         FileInputStream fin = new FileInputStream(cfg);
         properties.load(fin);
         config.traceDir = properties.getProperty("trace_dir");
-        config.symbolizer = properties.getProperty("symbolizer");
-
-//    config.binaryImage = properties.getProperty("binary_image");
+        Configuration.symbolizer = properties.getProperty("symbolizer");
         config.appname = properties.getProperty("app_name");
 
         LOG.info("app_name {}; trace_dir {}.", config.appname, config.traceDir);
@@ -54,7 +51,7 @@ public class ReorderMain {
         }
 
         val = properties.getProperty("fast_detect");
-        if (val != null && val.length() > 0) {
+        if (val != null && !val.isEmpty()) {
             config.fast_detect = Boolean.parseBoolean(val);
             LOG.info("fast_detect {}", config.fast_detect);
         }

@@ -1,4 +1,202 @@
 RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Swap
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Depend
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Depend
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Swap
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Swap
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Depend
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Depend
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Swap
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Swap
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Depend
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Depend
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Swap
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Depend Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Depend
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Depend
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Swap
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Swap
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Swap
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Depend
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Depend
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Swap
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
+  Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
+  Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
+  Schedule:
+[31m    x1-0    gid: 1 #0   begin order: 0[0m
+[31m    x2-0    gid: 2 #0   pc:0x42839c start  -> #1 order: 2[0m
+[31m    x39-0    gid: 39 #0   pc:0x42839c start  -> #2 order: 507[0m
+[32m    x1-1    gid: 1 #1   begin order: 490[0m
+[32m    x8-1    gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501[0m * Swap
+[33m    x1-2    gid: 1 #2   begin order: 1043[0m
+[33m    x3-2    gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048[0m * Depend
+[33m    x4-2    gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051[0m * Depend
+[32m    x7-1    gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500[0m * Swap
+[32m    x10-1    gid: 10 #1   end order:505[0m
+[31m    x76-0    76 #0   pc: 0x44f1b8 Join   <- 1  order 1055[0m
+[33m    x6-2    gid: 6 #2   end order:1061[0m
+[31m    x80-0    80 #0   pc: 0x44f1b8 Join   <- 2  order 1063[0m
+
+RawReorder:
   Switch Pair: Pair[Node: gid: 7 #1   pc:0x4b6aad W  addr:21813760  len: 4 value:42 order:500, Node: gid: 8 #1   pc:0x4b6aca W  addr:21813764  len: 4 value:1 order:501]
   Depend Pair: Pair[Node: gid: 3 #2   pc:0x4b6b1c  R   addr:21813764  len: 4 value:1 order: 1048, Node: gid: 4 #2   pc:0x4b6b44  R   addr:21813760  len: 4 value:42 order: 1051]
   Schedule:

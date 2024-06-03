@@ -32,32 +32,22 @@
 
 package tju.edu.cn.z3;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
 import org.apache.tools.ant.taskdefs.ExecTask;
 import org.apache.tools.ant.types.Commandline;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.Project;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class Z3Task extends ExecTask {
-  private int id;
+  private final int id;
 
-  private static String Z3_SMT = "z3smt.";
-  private static String Z3_OUT = "z3out.";
-  private static String Z3_ERR = "z3err.";
   File smtFile, z3OutFile, z3ErrFile;
 
-  private static String args = "-c \"z3 -smt2 ";
-
-  private Target target = new Target();
+  private final Target target = new Target();
 
   boolean sat;
 
@@ -85,11 +75,14 @@ public class Z3Task extends ExecTask {
   public void sendMessage(String msg) {
     PrintWriter smtWriter = null;
     try {
-      smtFile = Util.newOutFile("", Z3_SMT + id);
+      String z3_SMT = "z3smt.";
+      smtFile = Util.newOutFile("", z3_SMT + id);
 
-      z3OutFile = Util.newOutFile("", Z3_OUT + id);
+      String z3_OUT = "z3out.";
+      z3OutFile = Util.newOutFile("", z3_OUT + id);
 
-      z3ErrFile = Util.newOutFile("", Z3_ERR + id);
+      String z3_ERR = "z3err.";
+      z3ErrFile = Util.newOutFile("", z3_ERR + id);
 
       smtWriter = Util.newWriter(smtFile, true);
       smtWriter.println(msg);
@@ -141,15 +134,13 @@ public class Z3Task extends ExecTask {
 
         //br.close();
       }
-    } catch (FileNotFoundException e) {
-      System.err.println(e.getMessage());
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }
   }
 
   private void process(String line) {
-    String words[] = line.split(" ");
+    String[] words = line.split(" ");
     String varName = words[1];
     StringBuilder sb = new StringBuilder();
     for (int i = 2; i < words[2].length(); i++) {
@@ -180,6 +171,7 @@ public class Z3Task extends ExecTask {
 
   public void exec(File outFile, File errFile, String file) {
     Commandline.Argument cmdLineArgs = createArg();
+    String args = "-c \"z3 -smt2 ";
     String args2 = args + file;
 
     args2 += " 1>" + outFile;

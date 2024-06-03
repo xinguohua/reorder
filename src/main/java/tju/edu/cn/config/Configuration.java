@@ -75,6 +75,8 @@ public class Configuration {
 
   public String appname;
   public static String symbolizer;
+
+  public static boolean onlyDynamic;
   public long window_size;
   public long solver_timeout;
   public long solver_memory;
@@ -165,6 +167,8 @@ public class Configuration {
 
 //      binaryImage = cmd.getOptionValue(opt_image);
       traceDir = cmd.getOptionValue(opt_tdir);
+
+      onlyDynamic = true;
 
       if (!cmd.getArgList().isEmpty())
         appname = (String) cmd.getArgList().get(0);

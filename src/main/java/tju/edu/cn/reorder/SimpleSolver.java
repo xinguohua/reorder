@@ -12,7 +12,6 @@ import tju.edu.cn.trace.*;
 import tju.edu.cn.z3.Z3Run;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -90,7 +89,6 @@ public class SimpleSolver implements ReorderSolver {
                 }
             }
 
-            nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
             AbstractNode lastN = nodes.get(0);
             String lastVar = makeVariable(lastN);
             boolean skip = false;
@@ -301,7 +299,7 @@ public class SimpleSolver implements ReorderSolver {
 
             // Find all write nodes that write the same value and are not reachable from the read node
             for (WriteNode writeNode : writeNodes) {
-                if (writeNode.value == readNode.value && !reachEngine.canReach(readNode, writeNode)) {
+                if (writeNode.value == readNode.value && !NewReachEngine.canReach(readNode, writeNode)) {
                     if (writeNode.tid != readNode.tid) {
                         matchingWriteNodes.add(writeNode);
                     } else {
@@ -332,7 +330,7 @@ public class SimpleSolver implements ReorderSolver {
                     String lastConsD = null;
 
                     for (WriteNode wNode2 : writeNodes) {
-                        if (!matchingWriteNodes.contains(wNode2) && !reachEngine.canReach(wNode2, wNode1) && !reachEngine.canReach(readNode, wNode2)) {
+                        if (!matchingWriteNodes.contains(wNode2) && !NewReachEngine.canReach(wNode2, wNode1) && !NewReachEngine.canReach(readNode, wNode2)) {
                             String varWrite2 = makeVariable(wNode2);
                             String consD = String.format("(or (< %s %s) (< %s %s ))\n", varRead, varWrite2, varWrite2, varWrite1);
 
@@ -375,7 +373,7 @@ public class SimpleSolver implements ReorderSolver {
                 boolean firstConstraint = true;
 
                 for (WriteNode wNode : writeNodes) {
-                    if (wNode.tid != readNode.tid && !reachEngine.canReach(readNode, wNode)) {
+                    if (wNode.tid != readNode.tid && !NewReachEngine.canReach(readNode, wNode)) {
                         String varWrite = makeVariable(wNode);
                         String consE = String.format("(< %s %s)", varRead, varWrite);
                         if (!firstConstraint) {

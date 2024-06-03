@@ -17,24 +17,19 @@ import java.util.*;
 
 class TLAllocQ {
   //  Long2ObjectRBTreeMap
-  ArrayList<AllocaPair> allocQ = new ArrayList<AllocaPair>(Reorder.INITSZ_S);
+  ArrayList<AllocaPair> allocQ = new ArrayList<>(Reorder.INITSZ_S);
 
-  Long2ObjectRBTreeMap<ArrayList<AllocaPair>> tree = new Long2ObjectRBTreeMap<ArrayList<AllocaPair>>(
-      // addr in this tree follows DESC order
-      // to map acc with tail map
-      new Comparator<Long>() {
-        @Override
-        public int compare(Long x, Long y) {
-          return (y < x) ? -1 : ((x.longValue() == y.longValue()) ? 0 : 1);
-        }
-      });
+  Long2ObjectRBTreeMap<ArrayList<AllocaPair>> tree = new Long2ObjectRBTreeMap<>(
+          // addr in this tree follows DESC order
+          // to map acc with tail map
+          (x, y) -> (y < x) ? -1 : ((x.longValue() == y.longValue()) ? 0 : 1));
 
   public void add(AllocaPair g) {
     allocQ.add(g);
     final long addr = g.allocNode.addr;
     ArrayList<AllocaPair> ls = tree.get(addr);
     if (ls == null) {
-      ls = new ArrayList<AllocaPair>(30);
+      ls = new ArrayList<>(30);
       tree.put(addr, ls);
     }
     ls.add(g);
@@ -48,10 +43,10 @@ public class Allocator {
 
   private static final Logger LOG = LoggerFactory.getLogger(Allocator.class);
 
-  private Short2ObjectOpenHashMap<TLAllocQ>
-      tid2AllocQ = new Short2ObjectOpenHashMap<TLAllocQ>(Reorder.INITSZ_S / 2);
+  private final Short2ObjectOpenHashMap<TLAllocQ>
+      tid2AllocQ = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
 
-  private HashSet<DeallocNode> unmatched = new HashSet<DeallocNode>(Reorder.INITSZ_S);
+  private final HashSet<DeallocNode> unmatched = new HashSet<>(Reorder.INITSZ_S);
   HashMap<MemAccNode, HashSet<AllocaPair>> machtedAcc = new HashMap<MemAccNode, HashSet<AllocaPair>>(Reorder.INITSZ_S * 2);
 
   private long count_alloc = 0;
@@ -96,9 +91,9 @@ public class Allocator {
   }
 
 
-  public boolean checkAcc(MemAccNode accNode, NewReachEngine reachEngine) {
+  public boolean checkAcc(MemAccNode accNode) {
 
-    HashSet<AllocaPair> matchedGrp = new HashSet<AllocaPair>(32);
+    HashSet<AllocaPair> matchedGrp = new HashSet<>(32);
     final long accAddr = accNode.getAddr();
     final short accTid = accNode.tid;
     for (Short2ObjectMap.Entry<TLAllocQ> e : tid2AllocQ.short2ObjectEntrySet()) {
@@ -112,11 +107,10 @@ public class Allocator {
         		  //|| dn.tid == accTid//JEFF
         		  )
             continue;
-          //AllocNode an = p.allocNode;//JEFF change to free node
-          if (dn.addr <= accAddr&& 
+          if (dn.addr <= accAddr&&
               accAddr < dn.addr + dn.length
               && (dn.tid != accTid)//JEFF test  || accNode.idx>dn.idx
-              && !reachEngine.canReach(accNode, dn)
+              && !NewReachEngine.canReach(accNode, dn)
               )
 
             matchedGrp.add(p);
@@ -124,40 +118,10 @@ public class Allocator {
         }
       // tail map
     } // tid
-    if (matchedGrp.size() > 0) {
+    if (!matchedGrp.isEmpty()) {
       machtedAcc.put(accNode, matchedGrp);
       return true;
     } else return false;
-  }
-
-  public int _storedAlloc() {
-    int count = 0;
-    for (Short2ObjectMap.Entry<TLAllocQ> e : tid2AllocQ.short2ObjectEntrySet()) {
-      for (AllocaPair g : e.getValue().allocQ) {
-        if (g.allocNode != null)
-          count++;
-      }
-    }
-    return count;
-  }
-
-  public List<Integer> _matchedAlloc() {
-    int count1 = 0;
-    int count2 = 0;
-    int count3 = 0;
-    for (Short2ObjectMap.Entry<TLAllocQ> e : tid2AllocQ.short2ObjectEntrySet()) {
-      for (AllocaPair g : e.getValue().allocQ) {
-        if (g.deallocNode != null) {
-          count1++;
-          if (g.deallocNode.tid == g.allocNode.tid)
-            count2++;
-        } else if (g.possibleDealloc != null && g.possibleDealloc.size() > 0) {
-          count3++;
-        }
-      }
-    }
-
-    return Arrays.asList(count1, count2, count3);
   }
 
 
