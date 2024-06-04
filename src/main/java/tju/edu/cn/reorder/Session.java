@@ -57,7 +57,7 @@ public class Session {
     }
 
     public void start() {
-        traceLoader.loadAllEvent();
+        traceLoader.loadAllEvent(addr2line);
         traceLoader.processSycn();
         printTraceStats();
         while (traceLoader.hasNext()) {

@@ -18,7 +18,7 @@ public class Addr2line {
   private static final String ADDR2LINE_APPLE = "atos -o ";//"atos -o ";//"addr2line --demangle=gnu -e ";
   private static final String ADDR2LINE_LLVM = "llvm-symbolizer -color -pretty-print -obj=";//"atos -o ";//"addr2line --demangle=gnu -e ";
 
-  private static String OSTYPE = System.getProperty("os.name");
+  private static final String OSTYPE = System.getProperty("os.name");
   private static String ADDR2LINE;
 public static final int TRIM_LEN = 50;
 
@@ -87,7 +87,7 @@ public static final int TRIM_LEN = 50;
    */
   public Long2ObjectOpenHashMap<AddrInfo> sourceInfo(LongCollection pcLs) {
 
-    HashMap<String, Long2LongLinkedOpenHashMap> modules = new HashMap<String, Long2LongLinkedOpenHashMap>(120);
+    HashMap<String, Long2LongLinkedOpenHashMap> modules = new HashMap<>(120);
     Long2LongOpenHashMap pcBackMap = new Long2LongOpenHashMap(pcLs.size());
 
     for (long realPC : pcLs) {
@@ -113,7 +113,7 @@ public static final int TRIM_LEN = 50;
 
     for (String moduleName : modules.keySet()) {
       Long2LongLinkedOpenHashMap pOffsetMap = modules.get(moduleName);
-      if (pOffsetMap == null || pOffsetMap.size() < 1)
+      if (pOffsetMap == null || pOffsetMap.isEmpty())
         continue;
       StringBuilder cmd = new StringBuilder(100 + 30 * pOffsetMap.size());
       

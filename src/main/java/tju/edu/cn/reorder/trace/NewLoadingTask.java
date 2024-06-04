@@ -1,17 +1,18 @@
 package tju.edu.cn.reorder.trace;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tju.edu.cn.reorder.NewReachEngine;
+import tju.edu.cn.reorder.misc.Addr2line;
+import tju.edu.cn.reorder.misc.AddrInfo;
 import tju.edu.cn.trace.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
-public class NewLoadingTask implements Callable<TLEventSeq> {
+public class NewLoadingTask{
 
     private static final Logger LOG = LoggerFactory.getLogger(NewLoadingTask.class);
 
@@ -21,80 +22,7 @@ public class NewLoadingTask implements Callable<TLEventSeq> {
         this.fileInfo = fi;
     }
 
-    public TLEventSeq call() throws Exception {
-        return load();
-    }
-
-
-    public TLEventSeq load() {
-        final short tid = fileInfo.tid;
-        TLEventSeq seq = new TLEventSeq(tid);
-        NewReachEngine.cur_order_index = 0;//reset order list
-        TLHeader header;
-        try {
-            ByteReader br = new BufferedByteReader();
-            br.init(fileInfo);
-            int bnext;
-            if (fileInfo.fileOffset == 0) {
-                bnext = br.read();
-                if (bnext != -1) {
-                    header = getHeader(bnext, br);
-                    seq.header = header;
-                }
-            }
-            bnext = br.read();
-
-            try {
-                while (bnext != -1) {
-
-                    AbstractNode node = getNode(tid, bnext, br, TLEventSeq.stat);
-
-                    TLEventSeq.stat.c_total++;
-                    seq.numOfEvents++;
-
-                    if (node != null) {
-                        node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
-                        LOG.info("Synchronize " + node);
-                        if (node instanceof TBeginNode) {
-                            NewReachEngine.saveToThreadFirstNode(tid, (TBeginNode) node);
-                        } else if (node instanceof TEndNode) {
-                            NewReachEngine.saveToThreadLastNode(tid, (TEndNode) node);
-                        } else if (node instanceof TStartNode) {
-                            NewReachEngine.saveToStartNodeList((TStartNode) node);
-                        } else if (node instanceof TJoinNode) {
-                            NewReachEngine.saveToJoinNodeList((TJoinNode) node);
-                        } else if (node instanceof WaitNode) {
-                            TLEventSeq.stat.c_isync++;
-                            NewReachEngine.saveToWaitNotifyList((IWaitNotifyNode) node);
-                        } else if (node instanceof NotifyNode) {
-                            TLEventSeq.stat.c_isync++;
-                            NewReachEngine.saveToWaitNotifyList((IWaitNotifyNode) node);
-                        } else if (node instanceof NotifyAllNode) {
-                            TLEventSeq.stat.c_isync++;
-                            NewReachEngine.saveToWaitNotifyList((IWaitNotifyNode) node);
-                        }
-                    }
-                    bnext = br.read();
-                }
-            } catch (IOException e) {
-                TEndNode node = new TEndNode(tid, tid, 0, 0);//failed
-                seq.numOfEvents++;
-                node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
-                NewReachEngine.saveToThreadLastNode(tid, node);
-            }
-
-
-            br.finish(fileInfo);
-        } catch (Exception e) {
-            LOG.error("error parsing trace " + tid, e);
-            seq.events = null;
-            return seq;
-        }
-        return seq;
-    }
-
-
-    public TLEventSeq loadAllEvent() {
+    public TLEventSeq loadAllEvent(Addr2line addr2line) {
         final short tid = fileInfo.tid;
         TLEventSeq seq = new TLEventSeq(tid);
         if (seq.events == null){
@@ -119,6 +47,10 @@ public class NewLoadingTask implements Callable<TLEventSeq> {
                     TLEventSeq.stat.c_total++;
                     seq.numOfEvents++;
                     if (node != null) {
+                        ArrayList<AbstractNode> nodes = new ArrayList<>();
+                        nodes.add(node);
+                        Long2ObjectOpenHashMap<AddrInfo> addrInfoLong2ObjectOpenHashMap = addr2line.sourceInfo(nodes);
+
                         node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
                         LOG.info("Synchronize " + node);
                         seq.events.add(node);

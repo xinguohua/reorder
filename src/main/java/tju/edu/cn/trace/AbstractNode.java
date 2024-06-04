@@ -44,6 +44,15 @@ public abstract class AbstractNode {
 
   public int gid;
   public final short tid;
+  public String ai;
+
+  public String getAi() {
+    return ai;
+  }
+
+  public void setAi(String ai) {
+    this.ai = ai;
+  }
 
   public int getGid() {
     return gid;

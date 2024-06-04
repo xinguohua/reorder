@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tju.edu.cn.reorder.NewReachEngine;
 import tju.edu.cn.reorder.Reorder;
+import tju.edu.cn.reorder.misc.Addr2line;
 import tju.edu.cn.reorder.misc.CModuleList;
 import tju.edu.cn.reorder.misc.CModuleSection;
 import tju.edu.cn.trace.*;
@@ -51,7 +52,7 @@ public class EventLoader {
 
     // total size
     private int windowSize;
-    //  public static final short MAIN_TID = 0;
+
     public final CModuleList moduleList = new CModuleList();
 
     public EventLoader(ExecutorService exe, String folderName) {
@@ -129,6 +130,15 @@ public class EventLoader {
                 int idx = 0;
                 String moduleFullName = infoLs[idx++]; // name with path
 
+                // 要替换的子字符串
+                String target = "/ufo/reorder";
+
+                // 新的子字符串
+                String replacement = "./module";
+
+                // 执行替换
+                String newModuleFullName = moduleFullName.replace(target, replacement);
+
                 try {
                     // TODO: check to make sure switch from parseLong to parseUnsignedLong didn't break existing code ANDREW
                     long base = Long.parseUnsignedLong(infoLs[idx++].trim(), 16);
@@ -136,26 +146,12 @@ public class EventLoader {
                     long max = Long.parseUnsignedLong(infoLs[idx++].trim(), 16);
 
                     if (max > base) {
-                        CModuleSection m = new CModuleSection(moduleFullName, base, max);
+                        CModuleSection m = new CModuleSection(newModuleFullName, base, max);
                         moduleList.add(m);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-//        while (idx < infoLs.length) {
-//          boolean _isExe = Integer.parseInt(infoLs[idx++].trim()) > 0;
-//          long _begin = java.lang.Long.parseLong(infoLs[idx++].trim(), 16);
-//          long _end = java.lang.Long.parseLong(infoLs[idx++].trim(), 16);
-//
-//          CModuleSection m = new CModuleSection(moduleFullName, base, _isExe, _begin, _end);
-//
-//          if (!mainExeLoaded) {
-//            moduleList.addMainExe(m);
-//            mainExeLoaded = true;
-//          }
-//          moduleList.add(m);
-//        }
                 line = reader.readLine();
             }
             reader.close();
@@ -232,11 +228,11 @@ public class EventLoader {
     }
 
 
-    public void loadAllEvent() {
+    public void loadAllEvent(Addr2line addr2line) {
         for (short tid : allThreads) {
             FileInfo fi = fileInfoMap.get(tid);
             if (fi != null) {
-                TLEventSeq seq = new NewLoadingTask(fi).loadAllEvent();
+                TLEventSeq seq = new NewLoadingTask(fi).loadAllEvent(addr2line);
                 LOG.info("tid: " + tid + " Total Events:  " + seq.numOfEvents);
                 fileSeqinfo.put(tid, seq);
                 //reset file info so that it can be reused again
