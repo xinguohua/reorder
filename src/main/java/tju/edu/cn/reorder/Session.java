@@ -8,6 +8,7 @@ import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Addr2line;
 import tju.edu.cn.reorder.misc.Pair;
 import tju.edu.cn.reorder.misc.RawReorder;
+import tju.edu.cn.reorder.misc.Result;
 import tju.edu.cn.reorder.trace.EventLoader;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.reorder.trace.TLEventSeq;
@@ -88,14 +89,17 @@ public class Session {
 
 
     public static void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader) {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new FileWriter("output.txt"));
+        try (PrintWriter writer = new PrintWriter(new FileWriter("output.txt"))) {
 
             for (RawReorder rawReorder : rawReorders) {
                 String header = "RawReorder:";
                 System.out.println(header);
                 writer.println(header);
+
+                String logString = "  constr: " + rawReorder.logString;
+                System.out.println(logString);
+                writer.println(logString);
+
 
                 String switchPair = "  Switch Pair: " + rawReorder.switchPair;
                 System.out.println(switchPair);
@@ -132,10 +136,6 @@ public class Session {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
         }
     }
 
@@ -203,8 +203,8 @@ public class Session {
             final Pair<MemAccNode, MemAccNode> dependPair = e.value;
 
             cexe.submit(() -> {
-                ArrayList<String> bugSchedule = solver.searchReorderSchedule(map, switchPair, dependPair);
-                if (bugSchedule != null) return new RawReorder(switchPair, dependPair, bugSchedule);
+                Result result = solver.searchReorderSchedule(map, switchPair, dependPair);
+                if (result.schedule != null) return new RawReorder(switchPair, dependPair, result.schedule, result.logString);
                 else return null;
 
             });

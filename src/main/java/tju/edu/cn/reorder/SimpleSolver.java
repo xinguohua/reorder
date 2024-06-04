@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Pair;
+import tju.edu.cn.reorder.misc.Result;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.trace.*;
 import tju.edu.cn.z3.Z3Run;
@@ -14,8 +15,6 @@ import tju.edu.cn.z3.Z3Run;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static tju.edu.cn.reorder.Session.LOG;
 
 
 public class SimpleSolver implements ReorderSolver {
@@ -31,7 +30,6 @@ public class SimpleSolver implements ReorderSolver {
 
     // constraints below
     protected String constrDeclare;
-    protected String constrMHB;
     protected String constrSync;
     protected String constrCasual = "";
 
@@ -65,7 +63,7 @@ public class SimpleSolver implements ReorderSolver {
 
 
 
-    public void rebuildIntraThrConstr(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> reorderPair) {
+    public String rebuildIntraThrConstr(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> reorderPair) {
         StringBuilder sb = new StringBuilder(Reorder.INITSZ_L * 10);
         for (ArrayList<AbstractNode> nodes : map.values()) {
             // at least cBegin/cEnd
@@ -113,7 +111,7 @@ public class SimpleSolver implements ReorderSolver {
                 lastVar = var;
             }
         }
-        constrMHB = sb.toString();
+        return sb.toString();
     }
 
 
@@ -398,8 +396,8 @@ public class SimpleSolver implements ReorderSolver {
 
 
     // 依赖
-    public ArrayList<String> searchReorderSchedule(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair) {
-
+    public Result searchReorderSchedule(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair) {
+        Result res = new Result();
         boolean doSolve = true;
 
         MemAccNode switchNode1 = switchPair.key;
@@ -420,18 +418,12 @@ public class SimpleSolver implements ReorderSolver {
         String violateStr = buildReorderConstrOpt(changeReadNodes, true);
 
         // tid: a1 < a2 < a3
-        rebuildIntraThrConstr(map, switchPair);
+        String constrMHB = rebuildIntraThrConstr(map, switchPair);
         String switchNode1Str = makeVariable(switchNode1);
         String switchNode2Str = makeVariable(switchNode2);
 
         String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + obeyStr + violateStr + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
 
-        System.out.println("CONS_SETLOGIC: " + CONS_SETLOGIC);
-        System.out.println("constrDeclare: " + constrDeclare);
-        System.out.println("constrMHB: " + constrMHB);
-        System.out.println("constrSync: " + constrSync);
-        System.out.println("obeyStr: " + obeyStr);
-        System.out.println("violateStr: " + violateStr);
         synchronized (ct_constr) {
             ct_constr.push(Reorder.countMatches(csb, "assert"));
         }
@@ -439,15 +431,22 @@ public class SimpleSolver implements ReorderSolver {
         if (!doSolve) return null;
 
         Z3Run task = new Z3Run(config, taskId.getAndIncrement());
-        ArrayList<String> ls = task.buildSchedule(csb);
-        LOG.debug("result:{}", ls);
-        return ls;
+        res.schedule = task.buildSchedule(csb);
+
+        res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
+                "constrDeclare: " + constrDeclare + "\n" +
+                "constrMHB: " + constrMHB + "\n" +
+                "constrSync: " + constrSync + "\n" +
+                "obeyStr: " + obeyStr + "\n" +
+                "violateStr: " + violateStr + "\n";
+
+        return res;
     }
 
 
     @Override
     public boolean canReach(AbstractNode node1, AbstractNode node2) {
-        return reachEngine.canReach(node1, node2);
+        return NewReachEngine.canReach(node1, node2);
     }
 
     public static String makeVariable(AbstractNode node) {
@@ -456,7 +455,6 @@ public class SimpleSolver implements ReorderSolver {
 
     public void reset() {
         this.constrDeclare = null;
-        this.constrMHB = null;
         this.constrSync = null;
         this.constrCasual = null;
         this.taskId.set(0);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public interface ReorderSolver {
 
 
-  void rebuildIntraThrConstr(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> reorderPair);
+  String rebuildIntraThrConstr(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> reorderPair);
 
   String buildReorderConstrOpt(ArrayList<ReadNode> allReadNodes, boolean influence);
 

@@ -11,9 +11,13 @@ public class RawReorder {
 
   public final ArrayList<String> schedule;
 
-  public RawReorder(Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair, ArrayList<String> schedule) {
+  public final String logString;
+
+
+  public RawReorder(Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair, ArrayList<String> schedule, String logString) {
     this.switchPair = switchPair;
     this.dependPair = dependPair;
     this.schedule = schedule;
+    this.logString = logString;
   }
 }
