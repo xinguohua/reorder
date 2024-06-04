@@ -18,10 +18,7 @@ import tju.edu.cn.trace.MemAccNode;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 
@@ -73,7 +70,7 @@ public class Session {
             loadedEventCount += indexer.metaInfo.rawNodeCount;
 
 
-            List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderPairMaps = indexer.getReorderPairMap();
+            Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderPairMaps = indexer.getReorderPairMap();
             if (reorderPairMaps == null || reorderPairMaps.isEmpty()) return;
 
             prepareConstraints(indexer);
@@ -135,7 +132,7 @@ public class Session {
                 writer.println();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("An error occurred: {}", e.getMessage(), e);
         }
     }
 
@@ -193,7 +190,7 @@ public class Session {
             nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
         }
 
-        CompletionService<RawReorder> cexe = new ExecutorCompletionService<RawReorder>(exe);
+        CompletionService<RawReorder> cexe = new ExecutorCompletionService<>(exe);
 
         int task = 0;
         while (iter.hasNext() && limit > 0) {
@@ -211,7 +208,7 @@ public class Session {
             task++;
         }
 
-        ArrayList<RawReorder> ls = new ArrayList<RawReorder>(task);
+        ArrayList<RawReorder> ls = new ArrayList<>(task);
         try {
             while (task-- > 0) {
                 Future<RawReorder> f = cexe.take(); //blocks if none available
@@ -226,8 +223,6 @@ public class Session {
 
 
     protected void prepareConstraints(Indexer indexer) {
-        solver.setReachEngine(indexer.getReachEngine());
-
         solver.declareVariables(indexer.getAllNodeSeq());
         // start < tid_first
         solver.buildSyncConstr(indexer);

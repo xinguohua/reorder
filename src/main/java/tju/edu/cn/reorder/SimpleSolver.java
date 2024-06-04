@@ -35,7 +35,6 @@ public class SimpleSolver implements ReorderSolver {
 
     public static final String CONS_SETLOGIC = "(set-logic QF_IDL)\n";// use integer difference logic
     public static final String CONS_CHECK_GETMODEL = "(check-sat)\n(get-model)\n(exit)";
-    public static final String CONS_CHECK = "(check-sat)(exit)";
 
     public SimpleSolver(Configuration config) {
         this.config = config;
@@ -44,7 +43,7 @@ public class SimpleSolver implements ReorderSolver {
     @Override
     public void declareVariables(ArrayList<AbstractNode> trace) {
         StringBuilder sb = new StringBuilder(trace.size() * 30);
-        List<String> variables = new ArrayList<String>();
+        List<String> variables = new ArrayList<>();
 
         for (AbstractNode node : trace) {
             String var = makeVariable(node);
@@ -115,10 +114,6 @@ public class SimpleSolver implements ReorderSolver {
     }
 
 
-    public void setReachEngine(NewReachEngine reachEngine) {
-        this.reachEngine = reachEngine;
-    }
-
     @Override
     public void buildSyncConstr(Indexer index) {
         StringBuilder sb = new StringBuilder(Reorder.INITSZ_S * 10);
@@ -148,7 +143,6 @@ public class SimpleSolver implements ReorderSolver {
         StringBuilder constr = new StringBuilder(256);
 
         for (Long2ObjectMap.Entry<ArrayList<LockPair>> e1 : addr2LpLs.long2ObjectEntrySet()) {
-            long lockID = e1.getLongKey();
             ArrayList<LockPair> lpLs = e1.getValue();
 
             for (int i = 0; i < lpLs.size(); i++) {
@@ -167,7 +161,7 @@ public class SimpleSolver implements ReorderSolver {
 
                     if (p2LK == null || p2LK.tid == p1LKTid) continue;
 
-                    if (reachEngine.canReach(p1LK, p2LK) || reachEngine.canReach(p2LK, p1LK)) continue;
+                    if (NewReachEngine.canReach(p1LK, p2LK) || NewReachEngine.canReach(p2LK, p1LK)) continue;
                     // parallel lock pairs
 
                     constr.setLength(0);
@@ -197,78 +191,6 @@ public class SimpleSolver implements ReorderSolver {
     }
 
 
-    protected void appendLockConstrOpt(StringBuilder sb, ArrayList<LockPair> lockPairs) {
-
-        // obtain each thread's last lockpair
-        Short2ObjectOpenHashMap<LockPair> lastLockPairMap = new Short2ObjectOpenHashMap<LockPair>(Reorder.INITSZ_S / 2);
-
-        for (int i = 0; i < lockPairs.size(); i++) {
-            LockPair curLP = lockPairs.get(i);
-            String varCurLock;
-            String varCurUnlock = "";
-
-            if (curLP.nLock == null)//
-                continue;
-            else varCurLock = makeVariable(curLP.nLock);
-
-            if (curLP.nUnlock != null) varCurUnlock = makeVariable(curLP.nUnlock);
-
-            short curLockTid = curLP.nLock.tid;
-            LockPair lp1_pre = lastLockPairMap.get(curLockTid);
-
-            ArrayList<LockPair> flexLockPairs = new ArrayList<LockPair>(Reorder.INITSZ_S);
-
-            // find all lps that are from a different thread, and have no
-            // happens-after relation with curLP
-            // could further optimize by consider nLock regions per thread
-            for (LockPair lp : lockPairs) {
-                if (lp.nLock != null) {
-                    if (lp.nLock.tid != curLockTid && !reachEngine.canReach(curLP.nLock, lp.nLock)) {
-                        flexLockPairs.add(lp);
-                    }
-                } else if (lp.nUnlock != null) {
-                    if (lp.nUnlock.tid != curLockTid && !reachEngine.canReach(curLP.nLock, lp.nUnlock)) {
-                        flexLockPairs.add(lp);
-                    }
-                }
-            }// for
-
-            if (flexLockPairs.size() > 0) {
-
-                // for each nLock pair lp2 in flexLockPairs
-                // it is either before curLP or after curLP
-                for (LockPair lp2 : flexLockPairs) {
-                    if (lp2.nUnlock == null || lp2.nLock == null && lp1_pre != null)// impossible
-                        // to
-                        // match
-                        // lp2
-                        continue;
-
-                    String var_lp2_b = "";
-                    String var_lp2_a = "";
-
-                    var_lp2_b = makeVariable(lp2.nUnlock);
-
-                    if (lp2.nLock != null) var_lp2_a = makeVariable(lp2.nLock);
-
-                    String cons_b;
-
-                    // lp1_b==null, lp2_a=null
-                    if (curLP.nUnlock == null || lp2.nLock == null) {
-                        cons_b = "(< " + var_lp2_b + " " + varCurLock + ")";
-                        // the trace may not be well-formed due to segmentation
-                        if (curLP.nLock.gid < lp2.nUnlock.gid) cons_b = "";
-                    } else {
-                        cons_b = "(or (< " + var_lp2_b + " " + varCurLock + ") (< " + varCurUnlock + " " + var_lp2_a + "))";
-                    }
-                    if (!cons_b.isEmpty()) sb.append("(assert ").append(cons_b).append(")\n");
-                }
-            }
-            lastLockPairMap.put(curLP.nLock.tid, curLP);
-        }
-    }
-
-
     Indexer currentIndexer;
 
     public void setCurrentIndexer(Indexer indexer) {
@@ -293,7 +215,7 @@ public class SimpleSolver implements ReorderSolver {
             }
 
             WriteNode preNode = null;
-            ArrayList<WriteNode> matchingWriteNodes = new ArrayList<WriteNode>(64);
+            ArrayList<WriteNode> matchingWriteNodes = new ArrayList<>(64);
 
             // Find all write nodes that write the same value and are not reachable from the read node
             for (WriteNode writeNode : writeNodes) {
@@ -408,14 +330,15 @@ public class SimpleSolver implements ReorderSolver {
 
         //only make sure those reads that
         //accNode and deNode depend on are consistent
-        ArrayList<ReadNode> dependReadNodes = new ArrayList<ReadNode>();
+        ArrayList<ReadNode> dependReadNodes = new ArrayList<>();
         currentIndexer.getReorderDependentRead(dependReadNodes, dependNode1);
         String obeyStr = buildReorderConstrOpt(dependReadNodes, false);
 
-        ArrayList<ReadNode> changeReadNodes = new ArrayList<ReadNode>();
+        ArrayList<ReadNode> changeReadNodes = new ArrayList<>();
         currentIndexer.getReorderDependentRead(changeReadNodes, dependNode2);
         buildReorderConstrOpt(changeReadNodes, true);
         String violateStr = buildReorderConstrOpt(changeReadNodes, true);
+        if (obeyStr == null || obeyStr.isEmpty() || violateStr == null || violateStr.isEmpty()) return res;
 
         // tid: a1 < a2 < a3
         String constrMHB = rebuildIntraThrConstr(map, switchPair);
@@ -423,6 +346,12 @@ public class SimpleSolver implements ReorderSolver {
         String switchNode2Str = makeVariable(switchNode2);
 
         String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + obeyStr + violateStr + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
+         res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
+                "constrDeclare: " + constrDeclare + "\n" +
+                "constrMHB: " + constrMHB + "\n" +
+                "constrSync: " + constrSync + "\n" +
+                "obeyStr: " + obeyStr + "\n" +
+                "violateStr: " + violateStr + "\n";
 
         synchronized (ct_constr) {
             ct_constr.push(Reorder.countMatches(csb, "assert"));
@@ -432,14 +361,6 @@ public class SimpleSolver implements ReorderSolver {
 
         Z3Run task = new Z3Run(config, taskId.getAndIncrement());
         res.schedule = task.buildSchedule(csb);
-
-        res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
-                "constrDeclare: " + constrDeclare + "\n" +
-                "constrMHB: " + constrMHB + "\n" +
-                "constrSync: " + constrSync + "\n" +
-                "obeyStr: " + obeyStr + "\n" +
-                "violateStr: " + violateStr + "\n";
-
         return res;
     }
 

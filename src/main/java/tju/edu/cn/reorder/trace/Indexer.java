@@ -39,12 +39,8 @@ public class Indexer {
 
     public TraceMetaInfo metaInfo = new TraceMetaInfo();
 
-    // for thread sync constraints
-    protected Short2ObjectOpenHashMap<AbstractNode> tidFirstNode = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
-    protected Short2ObjectOpenHashMap<AbstractNode> tidLastNode = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
-
     // key是switch value 依赖
-    List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderCrossPairs = new ArrayList<>();
+    Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderCrossPairs = new HashSet<>();
 
 
     private static class SharedAccIndexes {
@@ -53,8 +49,6 @@ public class Indexer {
         protected ArrayList<AbstractNode> allNodeSeq = new ArrayList<>(Reorder.INITSZ_L);
 
         protected Map<String, AbstractNode> allNodeMap = new HashMap<>();
-
-        protected HashMap<MemAccNode, DeallocNode> acc2Dealloc = new HashMap<>(Reorder.INITSZ_L);
 
         protected Short2ObjectOpenHashMap<ArrayList<ReadNode>> tid2seqReads = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_L);
 
@@ -80,7 +74,7 @@ public class Indexer {
         }
     }
 
-    public SharedAccIndexes shared = new SharedAccIndexes();
+    private final SharedAccIndexes shared = new SharedAccIndexes();
 
 
     public Indexer() {
@@ -98,7 +92,6 @@ public class Indexer {
     }
 
 
-    private final NewReachEngine reachEngine = new NewReachEngine();
 
     public void processNode() {
         // 1. first pass handles:
@@ -131,14 +124,14 @@ public class Indexer {
                     MemAccNode memNode = (MemAccNode) node;
                     if (sharedAddrSet.contains(memNode.getAddr())) {
                         addNodeToSharedAndTid(memNode, tidNodes);
-                        handleTSMemAcc(tid, memNode);
+                        handleTSMemAcc(memNode);
                     }
                     if (Configuration.onlyDynamic) {
                         for (int i = 0; i < racePairsList.size(); i++) {
                             for (int j = i + 1; j < racePairsList.size(); j++) {
                                 Pair<MemAccNode, MemAccNode> pair1 = racePairsList.get(i);
                                 Pair<MemAccNode, MemAccNode> pair2 = racePairsList.get(j);
-                                List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> crossPatterns = isCrossPattern(pair1, pair2);
+                                Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> crossPatterns = isCrossPattern(pair1, pair2);
                                 if (!crossPatterns.isEmpty()) {
                                     reorderCrossPairs.addAll(crossPatterns);
                                 }
@@ -184,12 +177,12 @@ public class Indexer {
      * op2B                  op4A
      *
      */
-    private static List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> isCrossPattern(Pair<MemAccNode, MemAccNode> pair1, Pair<MemAccNode, MemAccNode> pair2) {
+    private static Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> isCrossPattern(Pair<MemAccNode, MemAccNode> pair1, Pair<MemAccNode, MemAccNode> pair2) {
         MemAccNode op1A = pair1.key;
         MemAccNode op4A = pair1.value;
         MemAccNode op2B = pair2.key;
         MemAccNode op3B = pair2.value;
-        List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> result = new ArrayList<>();
+        Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> result = new HashSet<>();
 
         if (op1A.tid == op2B.tid && op3B.tid == op4A.tid &&
                 ((op1A.gid < op2B.gid && op3B.gid < op4A.gid) || (op1A.gid > op2B.gid && op3B.gid > op4A.gid))) {
@@ -210,7 +203,7 @@ public class Indexer {
         return result;
     }
 
-    private Allocator allocator = new Allocator();
+    private final  Allocator allocator = new Allocator();
 
     /**
      * sync,
@@ -326,12 +319,12 @@ public class Indexer {
 
     // called in the second pass
     // build tid addr dealloc index
-    protected void handleTSMemAcc(int tid, MemAccNode node) {
+    protected void handleTSMemAcc(MemAccNode node) {
         // index: addr -> acc
         long addr = node.getAddr();
         // index: seq read, seq write
         if (node instanceof RangeReadNode) {
-
+            metaInfo.countRead++;
         } else if (node instanceof ReadNode) {
             metaInfo.countRead++;
 
@@ -339,13 +332,14 @@ public class Indexer {
             shared.addReadNode((ReadNode) node);
 
         } else if (node instanceof RangeWriteNode) {
+            metaInfo.countRead++;
 
         } else if (node instanceof WriteNode) {
             metaInfo.countWrite++;
 //        seqWrite.add((WriteNode) node);
             ArrayList<WriteNode> seqW = shared.addr2SeqWrite.get(addr);
             if (seqW == null) {
-                seqW = new ArrayList<WriteNode>(Reorder.INITSZ_L);
+                seqW = new ArrayList<>(Reorder.INITSZ_L);
                 shared.addr2SeqWrite.put(addr, seqW);
             }
             seqW.add((WriteNode) node);
@@ -356,14 +350,14 @@ public class Indexer {
         }
     }
 
-    Long2ObjectOpenHashMap<ArrayList<LockPair>> addr2LockPairLs = new Long2ObjectOpenHashMap<ArrayList<LockPair>>(Reorder.INITSZ_S);
+    Long2ObjectOpenHashMap<ArrayList<LockPair>> addr2LockPairLs = new Long2ObjectOpenHashMap<>(Reorder.INITSZ_S);
 
     protected void handleSync2(short tid, ISyncNode node) {
 
         long addr = node.getAddr();
         ArrayList<ISyncNode> syncNodes = _syncNodesMap.get(addr);
         if (syncNodes == null) {
-            syncNodes = new ArrayList<ISyncNode>(Reorder.INITSZ_S);
+            syncNodes = new ArrayList<>(Reorder.INITSZ_S);
             _syncNodesMap.put(addr, syncNodes);
         }
         syncNodes.add(node);
@@ -371,7 +365,7 @@ public class Indexer {
         if (node instanceof LockNode) {
             Stack<ISyncNode> stack = _tid2SyncStack.get(tid);
             if (stack == null) {
-                stack = new Stack<ISyncNode>();
+                stack = new Stack<>();
                 _tid2SyncStack.put(tid, stack);
             }
             stack.push(node);
@@ -381,19 +375,19 @@ public class Indexer {
             metaInfo.countUnlock++;
             Long2ObjectOpenHashMap<ArrayList<LockPair>> indexedLockpairs = _tid2LockPairs.get(tid);
             if (indexedLockpairs == null) {
-                indexedLockpairs = new Long2ObjectOpenHashMap<ArrayList<LockPair>>(Reorder.INITSZ_S);
+                indexedLockpairs = new Long2ObjectOpenHashMap<>(Reorder.INITSZ_S);
                 _tid2LockPairs.put(tid, indexedLockpairs);
             }
             long lockId = ((UnlockNode) node).lockID;
             ArrayList<LockPair> lockpairLs = indexedLockpairs.get(lockId);
             if (lockpairLs == null) {
-                lockpairLs = new ArrayList<LockPair>();
+                lockpairLs = new ArrayList<>();
                 indexedLockpairs.put(lockId, lockpairLs);
             }
 
             Stack<ISyncNode> stack = _tid2SyncStack.get(tid);
             if (stack == null) {
-                stack = new Stack<ISyncNode>();
+                stack = new Stack<>();
                 _tid2SyncStack.put(tid, stack);
             }
             //assert(stack.fsize()>0); //this is possible when segmented
@@ -413,7 +407,7 @@ public class Indexer {
                 long lockID = e.getLongKey();
                 ArrayList<LockPair> addrLpLs = addr2LockPairLs.get(lockID);
                 if (addrLpLs == null) {
-                    addrLpLs = new ArrayList<LockPair>(Reorder.INITSZ_S * 5);
+                    addrLpLs = new ArrayList<>(Reorder.INITSZ_S * 5);
                     addr2LockPairLs.put(lockID, addrLpLs);
                 }
                 addrLpLs.addAll(e.getValue());
@@ -432,7 +426,7 @@ public class Indexer {
             if (!stack.isEmpty()) {
                 Long2ObjectOpenHashMap<ArrayList<LockPair>> indexedLockpairs = _tid2LockPairs.get(tid);
                 if (indexedLockpairs == null) {
-                    indexedLockpairs = new Long2ObjectOpenHashMap<ArrayList<LockPair>>(Reorder.INITSZ_S);
+                    indexedLockpairs = new Long2ObjectOpenHashMap<>(Reorder.INITSZ_S);
                     _tid2LockPairs.put(tid, indexedLockpairs);
                 }
 
@@ -441,7 +435,7 @@ public class Indexer {
                     long addr = syncnode.getAddr();
                     ArrayList<LockPair> lockpairs = indexedLockpairs.get(addr);
                     if (lockpairs == null) {
-                        lockpairs = new ArrayList<LockPair>(Reorder.INITSZ_S);
+                        lockpairs = new ArrayList<>(Reorder.INITSZ_S);
                         indexedLockpairs.put(addr, lockpairs);
                     }
                     lockpairs.add(new LockPair(syncnode, null));
@@ -456,44 +450,11 @@ public class Indexer {
     }
 
 
-    Long2ObjectOpenHashMap<ArrayList<ISyncNode>> _syncNodesMap = new Long2ObjectOpenHashMap<ArrayList<ISyncNode>>(Reorder.INITSZ_S);
+    Long2ObjectOpenHashMap<ArrayList<ISyncNode>> _syncNodesMap = new Long2ObjectOpenHashMap<>(Reorder.INITSZ_S);
 
-    Short2ObjectOpenHashMap<Long2ObjectOpenHashMap<ArrayList<LockPair>>> _tid2LockPairs = new Short2ObjectOpenHashMap<Long2ObjectOpenHashMap<ArrayList<LockPair>>>(Reorder.INITSZ_S / 2);
+    Short2ObjectOpenHashMap<Long2ObjectOpenHashMap<ArrayList<LockPair>>> _tid2LockPairs = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
 
-    Short2ObjectOpenHashMap<Stack<ISyncNode>> _tid2SyncStack = new Short2ObjectOpenHashMap<Stack<ISyncNode>>(Reorder.INITSZ_S / 2);
-
-    protected Long2ObjectOpenHashMap<AbstractNode> gid2node;
-
-    public Long2ObjectOpenHashMap<AbstractNode> getGid2node() {
-        return gid2node;
-    }
-
-
-    /**
-     * most recent call in the back
-     *
-     * @param node
-     * @return
-     */
-    public LongArrayList buildCallStack(AbstractNode node) {
-        final short tid = node.tid;
-        final long gid = node.gid;
-        ArrayList<AbstractNode> callseq = tid2CallSeq.get(tid);
-        if (callseq == null || callseq.size() < 1) return null;
-        LongArrayList callStack = new LongArrayList(100);
-        for (AbstractNode n : callseq) {
-            if (n.gid > gid) break;
-            if (n instanceof FuncEntryNode) {
-                long pc = ((FuncEntryNode) n).pc;
-                callStack.push(pc);
-
-            } else if (n instanceof FuncExitNode) {
-                if (!callStack.isEmpty()) callStack.popLong();
-
-            } else throw new IllegalStateException("Unknown event in call seq " + n);
-        }
-        return callStack;
-    }
+    Short2ObjectOpenHashMap<Stack<ISyncNode>> _tid2SyncStack = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
 
 
     public void getReorderDependentRead(ArrayList<ReadNode> allReadNodes, MemAccNode node) {
@@ -532,17 +493,8 @@ public class Indexer {
             }
     }
 
-    public HashMap<MemAccNode, HashSet<AllocaPair>> getMachtedAcc() {
-        return allocator.machtedAcc;
-    }
-
-    public List<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> getReorderPairMap() {
+    public Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> getReorderPairMap() {
         return reorderCrossPairs;
-    }
-
-    public HashMap<MemAccNode, DeallocNode> getTSAcc2Dealloc() {
-//    throw new RuntimeException("Not implemented");
-        return shared.acc2Dealloc;
     }
 
     public Long2ObjectOpenHashMap<ArrayList<WriteNode>> getTSAddr2SeqWrite() {
@@ -558,29 +510,8 @@ public class Indexer {
         return shared.allNodeMap;
     }
 
-    public Long2ObjectOpenHashMap<ArrayList<ISyncNode>> get_syncNodesMap() {
-        return _syncNodesMap;
-    }
-
     public Short2ObjectOpenHashMap<ArrayList<AbstractNode>> getTSTid2sqeNodes() {
         return shared.tid2sqeNodes;
     }
-
-    public Short2ObjectOpenHashMap<AbstractNode> getTidLastNode() {
-        return tidLastNode;
-    }
-
-    public Short2ObjectOpenHashMap<AbstractNode> getTidFirstNode() {
-        return tidFirstNode;
-    }
-
-    public Long2LongOpenHashMap getTSInitWrites() {
-        return shared.initWrites;
-    }
-
-    public NewReachEngine getReachEngine() {
-        return reachEngine;
-    }
-
 
 }
