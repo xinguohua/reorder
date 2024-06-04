@@ -56,10 +56,10 @@ public class ReorderMain {
             LOG.info("window_size {}", config.window_size);
         }
 
-        val = properties.getProperty("fast_detect");
+        val = properties.getProperty("only_dynamic");
         if (val != null && !val.isEmpty()) {
-            config.fast_detect = Boolean.parseBoolean(val);
-            LOG.info("fast_detect {}", config.fast_detect);
+            config.only_dynamic = Boolean.parseBoolean(val);
+            LOG.info("only_dynamic {}", config.only_dynamic);
         }
 
         fin.close();

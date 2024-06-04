@@ -46,11 +46,9 @@ public class Configuration {
   public final static String opt_rmm_pso = "pso";//for testing only
 
   public final static String opt_window_size = "window_size";
-  public final static String opt_schedule = "schedule";
   public final static String opt_no_branch = "nobranch";
   public final static String opt_no_volatile = "novolatile";
   public final static String opt_allrace = "allrace";
-  private final static String opt_fast_detect = "fast_detect";
 
   public final static String opt_all_consistent = "allconsistent";
   public final static String opt_constraint_outdir = "outdir";
@@ -62,13 +60,9 @@ public class Configuration {
   public final static String opt_smtlib1 = "smtlib1";
   public final static String opt_optrace = "optrace";
 
-//  public final static String default_max_len = "100000";
-//  public final static String default_solver_timeout = "60";
   public final static String default_solver_timeout = "100";
   public final static String default_solver_memory = "2000";
-  public final static String default_empty = "";
   public final static String default_timeout = "36000";
-  public final static String default_symbolizer="llvm";
 
   public final static String default_constraint_outdir = System.getProperty("user.dir") +
       System.getProperty("file.separator") + "z3_tmp";
@@ -76,12 +70,12 @@ public class Configuration {
   public String appname;
   public static String symbolizer;
 
-  public static boolean onlyDynamic;
   public long window_size;
   public long solver_timeout;
   public long solver_memory;
   public long timeout;
-  public boolean fast_detect;
+
+  public boolean only_dynamic;
 
   public String constraint_outdir;
   public boolean nobranch;
@@ -136,11 +130,6 @@ public class Configuration {
 
       constraint_outdir = constraint_outdir.replace(File.separatorChar, '.');
 
-      fast_detect = cmd.hasOption(opt_fast_detect);
-      //ok, let's make fast_detect by default
-      fast_detect = true;
-
-      schedule = cmd.hasOption(opt_schedule);
       schedule = true;
 
       rmm_pso = cmd.hasOption(opt_rmm_pso);
@@ -168,7 +157,6 @@ public class Configuration {
 //      binaryImage = cmd.getOptionValue(opt_image);
       traceDir = cmd.getOptionValue(opt_tdir);
 
-      onlyDynamic = true;
 
       if (!cmd.getArgList().isEmpty())
         appname = (String) cmd.getArgList().get(0);
@@ -201,19 +189,19 @@ private static String getUsage() {
   }
 
   protected static String padOpt(String opts, String desc) {
-    return pad(1, opts, 30, desc);
+    return pad(opts, desc);
   }
 
-  private static String pad(int initial, String opts, int tab, String desc) {
-    StringBuffer b = new StringBuffer();
-    for (int i = 0; i < initial; i++) b.append(" ");
+  private static String pad(String opts, String desc) {
+    StringBuilder b = new StringBuilder();
+    for (int i = 0; i < 1; i++) b.append(" ");
     b.append(opts);
     int i;
-    if (tab <= opts.length()) {
+    if (30 <= opts.length()) {
       b.append("\n");
       i = 0;
-    } else i = opts.length() + initial;
-    for (; i <= tab; i++) {
+    } else i = opts.length() + 1;
+    for (; i <= 30; i++) {
       b.append(" ");
     }
     for (StringTokenizer t = new StringTokenizer(desc);
@@ -222,7 +210,7 @@ private static String getUsage() {
       if (i + s.length() > 78) {
         b.append("\n");
         i = 0;
-        for (; i <= tab; i++) {
+        for (; i <= 30; i++) {
           b.append(" ");
         }
       }

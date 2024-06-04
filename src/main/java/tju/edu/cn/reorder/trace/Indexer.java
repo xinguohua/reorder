@@ -3,13 +3,15 @@
 package tju.edu.cn.reorder.trace;
 
 
-import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.ShortOpenHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.NewReachEngine;
 import tju.edu.cn.reorder.Reorder;
 import tju.edu.cn.reorder.misc.Pair;
@@ -93,7 +95,7 @@ public class Indexer {
 
 
 
-    public void processNode() {
+    public void processNode(boolean onlyDynamic) {
         // 1. first pass handles:
         // sync,
         // alloc & dealloc,
@@ -107,10 +109,10 @@ public class Indexer {
         LongOpenHashSet sharedAddrSet = findSharedAcc(racePairs);
 
         // 3. third pass, handle shared mem acc (index: addr tid dealloc allnode)
-        processReorderNodes(racePairs, sharedAddrSet);
+        processReorderNodes(racePairs, sharedAddrSet, onlyDynamic);
     }
 
-    public void processReorderNodes(Set<Pair<MemAccNode, MemAccNode>> racePairsSet, LongOpenHashSet sharedAddrSet) {
+    public void processReorderNodes(Set<Pair<MemAccNode, MemAccNode>> racePairsSet, LongOpenHashSet sharedAddrSet, boolean onlyDynamic) {
         Pair<MemAccNode, MemAccNode> switchPair = new Pair<>();
         Pair<MemAccNode, MemAccNode> dependentPair = new Pair<>();
         List<Pair<MemAccNode, MemAccNode>> racePairsList = new ArrayList<>(racePairsSet);
@@ -126,7 +128,7 @@ public class Indexer {
                         addNodeToSharedAndTid(memNode, tidNodes);
                         handleTSMemAcc(memNode);
                     }
-                    if (Configuration.onlyDynamic) {
+                    if (onlyDynamic) {
                         for (int i = 0; i < racePairsList.size(); i++) {
                             for (int j = i + 1; j < racePairsList.size(); j++) {
                                 Pair<MemAccNode, MemAccNode> pair1 = racePairsList.get(i);

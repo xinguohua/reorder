@@ -66,7 +66,7 @@ public class Session {
 
             //1. set the number of threads
             //2. assign index to each thread
-            indexer.processNode();
+            indexer.processNode(config.only_dynamic);
             loadedEventCount += indexer.metaInfo.rawNodeCount;
 
 
