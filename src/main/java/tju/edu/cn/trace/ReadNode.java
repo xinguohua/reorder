@@ -47,7 +47,7 @@ public class ReadNode extends MemAccNode {
 
   public String toString() {
     return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc) +  "  R   addr:"  + addr
-        + "  len: " + len + " value:" + value + " order: " + order;
+        + "  len: " + len + " value:" + value + " order: " + order +" line:" + ai;
   }
 
   @Override

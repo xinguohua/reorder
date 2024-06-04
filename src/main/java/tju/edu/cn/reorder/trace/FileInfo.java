@@ -38,10 +38,4 @@ public class FileInfo implements Serializable {
         '}';
   }
 
-  public LoadingTask2  loader;
-public LoadingTask2 getEventLoader(long limit) {
-	if(loader==null)
-		loader = new LoadingTask2(this,limit);
-	return loader;
-}
 }

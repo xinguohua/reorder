@@ -49,7 +49,11 @@ public class NewLoadingTask{
                     if (node != null) {
                         ArrayList<AbstractNode> nodes = new ArrayList<>();
                         nodes.add(node);
-                        Long2ObjectOpenHashMap<AddrInfo> addrInfoLong2ObjectOpenHashMap = addr2line.sourceInfo(nodes);
+                        if (addr2line.sourceInfo(nodes).values().iterator().hasNext()){
+                            AddrInfo next = addr2line.sourceInfo(nodes).values().iterator().next();
+                            if (next != null) node.setAi(String.valueOf(next)); 
+                        }
+
 
                         node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
                         LOG.info("Synchronize " + node);

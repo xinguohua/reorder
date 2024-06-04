@@ -46,7 +46,7 @@ public class WriteNode extends MemAccNode {
   }
 
   public String toString() {
-    return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc)  + " W  addr:" + addr + "  len: " + len  + " value:" + value + " order:" + order;
+    return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc)  + " W  addr:" + addr + "  len: " + len  + " value:" + value + " order:" + order + " line:" + ai;
   }
 
   @Override
