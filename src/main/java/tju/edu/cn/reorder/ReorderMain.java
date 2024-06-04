@@ -19,7 +19,13 @@ public class ReorderMain {
         extendConfig(config);
         Session s = new Session(config);
         s.init();
+        long startTime = System.currentTimeMillis();
         s.start();
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        double durationInSeconds = duration / 1000.0;
+
+        System.out.println("duration time: " + durationInSeconds);
     }
 
     private static void extendConfig(Configuration config) throws IOException {
