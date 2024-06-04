@@ -51,7 +51,7 @@ public class NewLoadingTask{
                         nodes.add(node);
                         if (addr2line.sourceInfo(nodes).values().iterator().hasNext()){
                             AddrInfo next = addr2line.sourceInfo(nodes).values().iterator().next();
-                            if (next != null) node.setAi(String.valueOf(next)); 
+                            if (next != null) node.setAi(String.valueOf(next));
                         }
 
 
