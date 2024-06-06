@@ -328,7 +328,9 @@ public class Indexer {
                 for (int j = i + 1; j < nodes.size(); j++) {
                     MemAccNode node1 = nodes.get(i);
                     MemAccNode node2 = nodes.get(j);
-                    if ((node1 instanceof WriteNode || node1 instanceof RangeWriteNode) && (node2 instanceof WriteNode || node2 instanceof RangeWriteNode || node2 instanceof ReadNode || node2 instanceof RangeReadNode) && node1.tid != node2.tid && !NewReachEngine.canReach(node1, node2)) {
+                    if (node1.tid != node2.tid && !NewReachEngine.canReach(node1, node2)
+                            && ((node1 instanceof WriteNode || node1 instanceof RangeWriteNode)
+                            || (node2 instanceof WriteNode || node2 instanceof RangeWriteNode))) {
                         racePairs.add(new Pair<>(node1, node2));
                     }
                 }
