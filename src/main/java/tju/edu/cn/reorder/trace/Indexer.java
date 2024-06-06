@@ -18,6 +18,8 @@ import tju.edu.cn.reorder.misc.Pair;
 import tju.edu.cn.trace.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static tju.edu.cn.reorder.SimpleSolver.makeVariable;
 
@@ -84,11 +86,30 @@ public class Indexer {
     }
 
     public void addTidSeq(short tid, ArrayList<AbstractNode> seq) {
-        _rawTid2seq.put(tid, seq);
-        metaInfo.tidRawNodesCounts.put(tid, seq.size());
-        metaInfo.rawNodeCount += seq.size();
+        ArrayList<AbstractNode> uniqueNodes = new ArrayList<>();
+        if (!seq.isEmpty()) {
+            for (int i = 1; i < seq.size(); i++) {
+                AbstractNode previous3 = null;
+                AbstractNode previous2 = null;
+                AbstractNode previous1 = null;
+
+                AbstractNode current = seq.get(i);
+                if (i-3>=0){
+                    previous3 = seq.get(i-3);
+                    previous2 = seq.get(i-2);
+                    previous1= seq.get(i-1);
+                    if (current.getAi() != null && current.getAi().equals(previous3.getAi()) && previous2 instanceof FuncExitNode && previous1 instanceof FuncEntryNode){
+                        continue;
+                    }
+                }
+                uniqueNodes.add(current);
+            }
+        }
+        _rawTid2seq.put(tid, uniqueNodes);
+        metaInfo.tidRawNodesCounts.put(tid, uniqueNodes.size());
+        metaInfo.rawNodeCount += uniqueNodes.size();
         if (LOG.isTraceEnabled()) {
-            for (AbstractNode n : seq)
+            for (AbstractNode n : uniqueNodes)
                 LOG.trace(n.toString());
         }
     }
@@ -269,7 +290,6 @@ public class Indexer {
                 final long addr = memNode.getAddr();
 
                 if (allocator.checkAcc(memNode)) sharedAddrSet.add(addr);
-
                 if (node instanceof ReadNode || node instanceof RangeReadNode) {
                     addr2TidReads.computeIfAbsent(addr, k -> new ShortOpenHashSet(Reorder.INITSZ_S / 10)).add(tid);
                 } else if (node instanceof WriteNode || node instanceof RangeWriteNode) {
@@ -314,7 +334,9 @@ public class Indexer {
                 }
             }
         }
-
+        racePairs.stream()
+                .map(Object::toString)
+                .forEach(LOG::info);
         return sharedAddrSet;
     }
 
