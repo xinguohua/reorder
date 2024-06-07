@@ -7,6 +7,8 @@ import tju.edu.cn.config.Configuration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 
@@ -35,6 +37,18 @@ public class ReorderMain {
         FileInputStream fin = new FileInputStream(cfg);
         properties.load(fin);
         config.traceDir = properties.getProperty("trace_dir");
+        config.outputName = "./output/";
+        if (config.traceDir != null){
+            int lastSlashIndex = config.traceDir.lastIndexOf('/');
+            if (lastSlashIndex == -1) {
+                config.outputName += config.traceDir;
+            }
+            config.outputName += config.traceDir.substring(lastSlashIndex + 1);
+        }else {
+            LocalDateTime currentTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            config.outputName += currentTime.format(formatter);
+        }
         Configuration.symbolizer = properties.getProperty("symbolizer");
         config.appname = properties.getProperty("app_name");
 

@@ -79,14 +79,14 @@ public class Session {
 
             List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().iterator(), Reorder.PAR_LEVEL);
 
-            displayRawReorders(rawReorders, indexer, traceLoader);
+            displayRawReorders(rawReorders, indexer, traceLoader, config.outputName);
         }
         exe.shutdownNow();
     }
 
 
-    public static void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("output.txt"))) {
+    public static void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader, String outputName) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(outputName))) {
 
             for (RawReorder rawReorder : rawReorders) {
                 String header = "RawReorder:";

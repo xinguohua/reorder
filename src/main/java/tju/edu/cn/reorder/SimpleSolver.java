@@ -281,9 +281,9 @@ public class SimpleSolver implements ReorderSolver {
 
                 consB.append(consBEnd);
                 if (!influence) {
-                    csb.append(String.format("(assert %s)\n\n", consB));
+                    csb.append(String.format("%s", consB));
                 } else {
-                    csb.append(String.format("(assert (not %s))\n\n", consB));
+                    csb.append(String.format("(not %s)", consB));
                 }
             } else {
                 // No matching value writes, ensure it reads the initial write
@@ -306,9 +306,9 @@ public class SimpleSolver implements ReorderSolver {
 
                 if (compositeConstraint.length() > 0) {
                     if (!influence) {
-                        csb.append(String.format("(assert (and %s))\n", compositeConstraint));
+                        csb.append(String.format("(and %s)", compositeConstraint));
                     } else {
-                        csb.append(String.format("(assert (not (and %s)))\n", compositeConstraint));
+                        csb.append(String.format("(not (and %s))", compositeConstraint));
                     }
                 }
             }
@@ -328,8 +328,7 @@ public class SimpleSolver implements ReorderSolver {
         MemAccNode dependNode1 = dependPair.key;
         MemAccNode dependNode2 = dependPair.value;
 
-        //only make sure those reads that
-        //accNode and deNode depend on are consistent
+        //改变支配变量的值
         ArrayList<ReadNode> dependReadNodes = new ArrayList<>();
         currentIndexer.getReorderDependentRead(dependReadNodes, dependNode1);
         String obeyStr = buildReorderConstrOpt(dependReadNodes, false);
@@ -338,20 +337,30 @@ public class SimpleSolver implements ReorderSolver {
         currentIndexer.getReorderDependentRead(changeReadNodes, dependNode2);
         buildReorderConstrOpt(changeReadNodes, true);
         String violateStr = buildReorderConstrOpt(changeReadNodes, true);
-        if (obeyStr == null || obeyStr.isEmpty() || violateStr == null || violateStr.isEmpty()) return res;
+
+        // 支配变量去改变别人
+        ArrayList<ReadNode> swapRelReadNodes = new ArrayList<>();
+        currentIndexer.getSwapBehindRelRead(swapRelReadNodes, switchNode1);
+        String violateStr1 = buildReorderConstrOpt(swapRelReadNodes, true);
+
+        if (obeyStr == null || obeyStr.isEmpty() || ((violateStr == null || violateStr.isEmpty()) && ((violateStr1 == null || violateStr1.isEmpty())))) return res;
+
+        String finalVio = "(assert (or" + violateStr +  " " + violateStr1+ "))\n";
+        String finalObeyStr = "(assert" + obeyStr + ")\n";
+
 
         // tid: a1 < a2 < a3
         String constrMHB = rebuildIntraThrConstr(map, switchPair);
         String switchNode1Str = makeVariable(switchNode1);
         String switchNode2Str = makeVariable(switchNode2);
 
-        String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + obeyStr + violateStr + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
+        String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + finalObeyStr + finalVio + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
          res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
                 "constrDeclare: " + constrDeclare + "\n" +
                 "constrMHB: " + constrMHB + "\n" +
                 "constrSync: " + constrSync + "\n" +
-                "obeyStr: " + obeyStr + "\n" +
-                "violateStr: " + violateStr + "\n";
+                "obeyStr: " + finalObeyStr + "\n" +
+                "violateStr: " + finalVio + "\n";
 
         synchronized (ct_constr) {
             ct_constr.push(Reorder.countMatches(csb, "assert"));

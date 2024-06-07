@@ -88,7 +88,7 @@ public class Indexer {
     public void addTidSeq(short tid, ArrayList<AbstractNode> seq) {
         ArrayList<AbstractNode> uniqueNodes = new ArrayList<>();
         if (!seq.isEmpty()) {
-            for (int i = 1; i < seq.size(); i++) {
+            for (int i = 0; i < seq.size(); i++) {
                 AbstractNode previous3 = null;
                 AbstractNode previous2 = null;
                 AbstractNode previous1 = null;
@@ -518,6 +518,45 @@ public class Indexer {
                 allReadNodes.add(tidNodes.get(i));
             }
     }
+
+
+    public void getSwapBehindRelRead(ArrayList<ReadNode> swapRelReadNodes, MemAccNode node) {
+        ArrayList<ReadNode> tidNodes = shared.tid2seqReads.get(node.tid);
+        if (tidNodes == null || tidNodes.isEmpty()) return;
+
+        int min = 0;
+        int max = tidNodes.size() - 1;
+
+        // 找到当前节点之前的最新读操作
+        int id = (min + max) / 2;
+
+        while (true) {
+            ReadNode tmp = tidNodes.get(id);
+            if (tmp.gid < node.gid) {
+                if (id + 1 > max || tidNodes.get(++id).gid > node.gid) break;
+                min = id;
+                id = (min + max) / 2;
+            } else if (tmp.gid > node.gid) {
+                if (id - 1 < min || tidNodes.get(--id).gid < node.gid) break;
+                max = id;
+                id = (min + max) / 2;
+            } else {
+                // 排除自身
+                break;
+            }
+        }
+
+        if (tidNodes.get(id).gid < node.gid && id < max) id++; // 特殊情况处理
+
+        // 从找到的位置开始，收集到列表末尾的节点
+        for (int i = id; i < tidNodes.size(); i++) {
+            if (tidNodes.get(i).addr == node.addr) {
+                swapRelReadNodes.add(tidNodes.get(i));
+            }
+        }
+    }
+
+
 
     public Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> getReorderPairMap() {
         return reorderCrossPairs;
