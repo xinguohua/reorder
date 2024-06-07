@@ -1,0 +1,70 @@
+/ufo/reorder/0-datarace|0|4eb000|
+/ufo/reorder/0-datarace|600000|0|
+/ufo/reorder/0-datarace|600000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97e798000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97e818000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97e898000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97e918000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97e998000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ea18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ea98000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97eb18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97eb98000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ec18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ec98000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ed18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ed98000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ee18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97f6c0000|0|
+/tmp/tsan.rodata.473005 (deleted)|de97ff18000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980728000|0|
+/tmp/tsan.rodata.473005 (deleted)|de9807a8000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980828000|0|
+/tmp/tsan.rodata.473005 (deleted)|de9808a8000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980928000|0|
+/tmp/tsan.rodata.473005 (deleted)|de9809a8000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980a28000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980aa8000|0|
+/tmp/tsan.rodata.473005 (deleted)|de980b28000|0|
+/tmp/tsan.rodata.473005 (deleted)|de98134c000|0|
+/tmp/tsan.rodata.473005 (deleted)|de981b6c000|0|
+/tmp/tsan.rodata.473005 (deleted)|de9823e0000|0|
+/tmp/tsan.rodata.473005 (deleted)|de982460000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001000000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001080000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001100000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001180000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001200000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001280000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001300000|0|
+/tmp/tsan.rodata.473005 (deleted)|100001380000|0|
+/lib/x86_64-linux-gnu/libc-2.23.so|7f7a5f9e6000|7f7a5fba6000|
+/lib/x86_64-linux-gnu/libc-2.23.so|7f7a5f9e6000|0|
+/lib/x86_64-linux-gnu/libc-2.23.so|7f7a5fbe6000|0|
+/lib/x86_64-linux-gnu/libc-2.23.so|7f7a5fbe6000|0|
+/lib/x86_64-linux-gnu/libgcc_s.so.1|7f7a5fdb0000|0|
+/lib/x86_64-linux-gnu/libgcc_s.so.1|7f7a5fdb0000|7f7a5fdc6000|
+/lib/x86_64-linux-gnu/libgcc_s.so.1|7f7a5ffb0000|0|
+/lib/x86_64-linux-gnu/libdl-2.23.so|7f7a5ffc6000|7f7a5ffc9000|
+/lib/x86_64-linux-gnu/libdl-2.23.so|7f7a5ffc6000|0|
+/lib/x86_64-linux-gnu/libdl-2.23.so|7f7a601c6000|0|
+/lib/x86_64-linux-gnu/libdl-2.23.so|7f7a601c6000|0|
+/lib/x86_64-linux-gnu/libm-2.23.so|7f7a601ca000|0|
+/lib/x86_64-linux-gnu/libm-2.23.so|7f7a601ca000|7f7a602d2000|
+/lib/x86_64-linux-gnu/libm-2.23.so|7f7a603ca000|0|
+/lib/x86_64-linux-gnu/libm-2.23.so|7f7a603ca000|0|
+/lib/x86_64-linux-gnu/librt-2.23.so|7f7a604d3000|7f7a604da000|
+/lib/x86_64-linux-gnu/librt-2.23.so|7f7a604d3000|0|
+/lib/x86_64-linux-gnu/librt-2.23.so|7f7a606d3000|0|
+/lib/x86_64-linux-gnu/librt-2.23.so|7f7a606d3000|0|
+/lib/x86_64-linux-gnu/libpthread-2.23.so|7f7a606db000|0|
+/lib/x86_64-linux-gnu/libpthread-2.23.so|7f7a606db000|7f7a606f3000|
+/lib/x86_64-linux-gnu/libpthread-2.23.so|7f7a608db000|0|
+/lib/x86_64-linux-gnu/libpthread-2.23.so|7f7a608db000|0|
+/lib/x86_64-linux-gnu/ld-2.23.so|7f7a608f8000|7f7a6091e000|
+/lib/x86_64-linux-gnu/ld-2.23.so|7f7a60af8000|0|
+/lib/x86_64-linux-gnu/ld-2.23.so|7f7a60af8000|0|
+[stack]|7ffe9c5a3000|0|
+[vvar]|7ffe9c5eb000|0|
+[vdso]|7ffe9c5ef000|7ffe9c5f1000|
+[vsyscall]|ffffffffff600000|ffffffffff601000|
