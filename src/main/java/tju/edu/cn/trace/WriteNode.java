@@ -28,17 +28,23 @@
  ******************************************************************************/
 package tju.edu.cn.trace;
 
+import java.util.Arrays;
+
 public class WriteNode extends MemAccNode {
 
   public static NodeType TYPE = NodeType.WRITE;
 
   public final byte len;
   public final long value;
+  public final int line;
+  public final char[] file;
 
-  public WriteNode(short tid, long pc, long addr, byte len, long value, long o) {
+  public WriteNode(short tid, long pc, long addr, byte len, long value, long o, int line, char[] file) {
     super(tid, addr, pc, o);
     this.value = value;
     this.len = len;
+    this.line = line;
+    this.file =file;
   }
 
   public long getAddr() {
@@ -46,7 +52,8 @@ public class WriteNode extends MemAccNode {
   }
 
   public String toString() {
-    return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc)  + " W  addr:" + addr + "  len: " + len  + " value:" + value + " order:" + order + " line:" + ai;
+    return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc)  + " W  addr:" + addr + "  len: " + len  + " value:" + value +
+            " order:" + order + " line:" + line + " File:" + new String(file);
   }
 
   @Override

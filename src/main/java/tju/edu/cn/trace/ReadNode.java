@@ -28,17 +28,23 @@
  ******************************************************************************/
 package tju.edu.cn.trace;
 
+import java.util.Arrays;
+
 public class ReadNode extends MemAccNode {
 
   public static NodeType TYPE = NodeType.READ;
 
   public final byte len;
   public final long value;
+  public final int line;
+  public final char[] file;
 
-  public ReadNode(short tid, long pc, long addr, byte len, long value, long o) {
+  public ReadNode(short tid, long pc, long addr, byte len, long value, long o, int line, char[] file) {
     super(tid, addr, pc, o);
     this.value = value;
     this.len = len;
+    this.line = line;
+    this.file= file;
   }
 
   public long getAddr() {
@@ -47,7 +53,7 @@ public class ReadNode extends MemAccNode {
 
   public String toString() {
     return "gid: "+gid + " #" + tid + "   pc:0x" + Long.toHexString(pc) +  "  R   addr:"  + addr
-        + "  len: " + len + " value:" + value + " order: " + order +" line:" + ai;
+        + "  len: " + len + " value:" + value + " order: " + order +" line:" + line + " File: " + new String(file);
   }
 
   @Override
