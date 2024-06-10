@@ -1,14 +1,14 @@
 
- >>>>>>>>>>>>>>>>>> Statistic (pid:419373 from:419367) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>> Statistic (pid:549487 from:549481) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #0 |Start 2 |Join 2 |Alloc 11 |Dealloc 10 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
 R1 0 |R2 0 |R4 0 |R8 0 |W1 0 |W2 0 |W4 0 |W8 2
-RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 993 | Ptr Prop 0
-Total stored events: 1020, size: 20525
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 990 | Ptr Prop 0
+Total stored events: 1017, size: 20465
 #1 |Start 0 |Join 0 |Alloc 3 |Dealloc 2 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
-R1 3 |R2 0 |R4 0 |R8 0 |W1 2 |W2 0 |W4 0 |W8 2
-RW 0 |RR 0 |Stack ACC 1 |Stack Range ACC 0 |Func Call 18 | Ptr Prop 0
-Total stored events: 30, size: 727
+R1 0 |R2 0 |R4 1 |R8 2 |W1 2 |W2 0 |W4 0 |W8 1
+RW 0 |RR 0 |Stack ACC 1 |Stack Range ACC 0 |Func Call 17 | Ptr Prop 0
+Total stored events: 28, size: 683
 #2 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
-R1 70 |R2 0 |R4 0 |R8 0 |W1 1 |W2 0 |W4 0 |W8 4
-RW 0 |RR 0 |Stack ACC 1 |Stack Range ACC 0 |Func Call 83 | Ptr Prop 0
-Total stored events: 158, size: 4238
+R1 53 |R2 0 |R4 1 |R8 1 |W1 1 |W2 0 |W4 0 |W8 3
+RW 0 |RR 0 |Stack ACC 1 |Stack Range ACC 0 |Func Call 67 | Ptr Prop 0
+Total stored events: 126, size: 3377

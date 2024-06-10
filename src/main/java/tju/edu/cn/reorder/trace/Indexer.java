@@ -520,6 +520,17 @@ public class Indexer {
     }
 
 
+    public void getReorderDependentRead1(ArrayList<ReadNode> allReadNodes, MemAccNode node) {
+
+        ArrayList<ReadNode> tidNodes = shared.tid2seqReads.get(node.tid);
+        if (tidNodes == null || tidNodes.isEmpty()) return;
+        for (ReadNode tidNode : tidNodes) {
+            if (tidNode.addr == node.addr) {
+                allReadNodes.add(tidNode);
+            }
+        }
+    }
+
     public void getSwapBehindRelRead(ArrayList<ReadNode> swapRelReadNodes, MemAccNode node) {
         ArrayList<ReadNode> tidNodes = shared.tid2seqReads.get(node.tid);
         if (tidNodes == null || tidNodes.isEmpty()) return;

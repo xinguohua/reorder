@@ -328,25 +328,33 @@ public class SimpleSolver implements ReorderSolver {
         MemAccNode dependNode1 = dependPair.key;
         MemAccNode dependNode2 = dependPair.value;
 
-        //改变支配变量的值
-        ArrayList<ReadNode> dependReadNodes = new ArrayList<>();
-        currentIndexer.getReorderDependentRead(dependReadNodes, dependNode1);
-        String obeyStr = buildReorderConstrOpt(dependReadNodes, false);
+        
+        ArrayList<ReadNode> dependReadNodes1 = new ArrayList<>();
+        currentIndexer.getReorderDependentRead1(dependReadNodes1, dependNode1);
+        String obeyStr1 = buildReorderConstrOpt(dependReadNodes1, false);
+        String violateStr1 = buildReorderConstrOpt(dependReadNodes1, true);
 
-        ArrayList<ReadNode> changeReadNodes = new ArrayList<>();
-        currentIndexer.getReorderDependentRead(changeReadNodes, dependNode2);
-        buildReorderConstrOpt(changeReadNodes, true);
-        String violateStr = buildReorderConstrOpt(changeReadNodes, true);
+        ArrayList<ReadNode> dependReadNodes2 = new ArrayList<>();
+        currentIndexer.getReorderDependentRead1(dependReadNodes2, dependNode2);
+        String obeyStr2 = buildReorderConstrOpt(dependReadNodes2, false);
+        String violateStr2 = buildReorderConstrOpt(dependReadNodes2, true);
 
-        // 支配变量去改变别人
-        ArrayList<ReadNode> swapRelReadNodes = new ArrayList<>();
-        currentIndexer.getSwapBehindRelRead(swapRelReadNodes, switchNode1);
-        String violateStr1 = buildReorderConstrOpt(swapRelReadNodes, true);
 
-        if (obeyStr == null || obeyStr.isEmpty() || ((violateStr == null || violateStr.isEmpty()) && ((violateStr1 == null || violateStr1.isEmpty())))) return res;
+        ArrayList<ReadNode> swapReadNodes1 = new ArrayList<>();
+        currentIndexer.getReorderDependentRead1(swapReadNodes1, switchNode1);
+        String obeyStr3 = buildReorderConstrOpt(swapReadNodes1, false);
+        String violateStr3 = buildReorderConstrOpt(swapReadNodes1, true);
 
-        String finalVio = "(assert (or" + violateStr +  " " + violateStr1+ "))\n";
-        String finalObeyStr = "(assert" + obeyStr + ")\n";
+
+        ArrayList<ReadNode> swapReadNodes2 = new ArrayList<>();
+        currentIndexer.getReorderDependentRead1(swapReadNodes2, switchNode2);
+        String obeyStr4 = buildReorderConstrOpt(swapReadNodes2, false);
+        String violateStr4 = buildReorderConstrOpt(swapReadNodes2, true);
+
+        ArrayList<String> combinations = generateCombinations(violateStr1, violateStr2, violateStr3, violateStr4
+                , obeyStr1, obeyStr2, obeyStr3, obeyStr4);
+        if (combinations.isEmpty()) return res;
+        String finalVio = buildFinalAssert(combinations);
 
 
         // tid: a1 < a2 < a3
@@ -354,12 +362,11 @@ public class SimpleSolver implements ReorderSolver {
         String switchNode1Str = makeVariable(switchNode1);
         String switchNode2Str = makeVariable(switchNode2);
 
-        String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + finalObeyStr + finalVio + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
+        String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + finalVio + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
          res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
                 "constrDeclare: " + constrDeclare + "\n" +
                 "constrMHB: " + constrMHB + "\n" +
                 "constrSync: " + constrSync + "\n" +
-                "obeyStr: " + finalObeyStr + "\n" +
                 "violateStr: " + finalVio + "\n";
 
         synchronized (ct_constr) {
@@ -372,6 +379,34 @@ public class SimpleSolver implements ReorderSolver {
         res.schedule = task.buildSchedule(csb);
         return res;
     }
+
+
+    public ArrayList<String> generateCombinations(String violateStr1, String violateStr2, String violateStr3, String violateStr4, String obeyStr1, String obeyStr2, String obeyStr3, String obeyStr4) {
+        ArrayList<String> combinations = new ArrayList<>();
+        if (violateStr1 != null && !violateStr1.isEmpty()) {
+            combinations.add("(and " + violateStr1 + " " + obeyStr2 + " " + obeyStr3 + " " + obeyStr4 + ")\n");
+        }
+        if (violateStr2 != null && !violateStr2.isEmpty()) {
+            combinations.add("(and " + obeyStr1 + " " + violateStr2 + " " + obeyStr3 + " " + obeyStr4 + ")\n");
+        }
+        if (violateStr3 != null && !violateStr3.isEmpty()) {
+            combinations.add("(and " + obeyStr1 + " " + obeyStr2 + " " + violateStr3 + " " + obeyStr4 + ")\n");
+        }
+        if (violateStr4 != null && !violateStr4.isEmpty()) {
+            combinations.add("(and " + obeyStr1 + " " + obeyStr2 + " " + obeyStr3 + " " + violateStr4 + ")\n");
+        }
+        return combinations;
+    }
+
+    public String buildFinalAssert(ArrayList<String> combinations) {
+        StringBuilder finalAssert = new StringBuilder("(assert (or ");
+        for (String combination : combinations) {
+            finalAssert.append(combination.trim()).append(" ");
+        }
+        finalAssert.append("))\n");
+        return finalAssert.toString();
+    }
+
 
 
     @Override
