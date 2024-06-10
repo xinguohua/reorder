@@ -328,7 +328,20 @@ public class SimpleSolver implements ReorderSolver {
         MemAccNode dependNode1 = dependPair.key;
         MemAccNode dependNode2 = dependPair.value;
 
-        
+        // swap contition
+        int line1 = -1;
+        int line2 = -1;
+        if (switchNode1 instanceof ReadNode) {
+            line1 = ((ReadNode) switchNode1).line;
+        } else if (switchNode1 instanceof WriteNode) {
+            line1 = ((WriteNode) switchNode1).line;
+        }
+        if (switchNode2 instanceof ReadNode) {
+            line2 = ((ReadNode) switchNode2).line;
+        } else if (switchNode2 instanceof WriteNode) {
+            line2 = ((WriteNode) switchNode2).line;
+        }
+        if (line2 != -1 && line2 == line1) return res;
         ArrayList<ReadNode> dependReadNodes1 = new ArrayList<>();
         currentIndexer.getReorderDependentRead1(dependReadNodes1, dependNode1);
         String obeyStr1 = buildReorderConstrOpt(dependReadNodes1, false);
@@ -406,8 +419,6 @@ public class SimpleSolver implements ReorderSolver {
         finalAssert.append("))\n");
         return finalAssert.toString();
     }
-
-
 
     @Override
     public boolean canReach(AbstractNode node1, AbstractNode node2) {
