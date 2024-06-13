@@ -92,6 +92,8 @@ public class Configuration {
 
   public String outputName;
 
+  public String patternType;
+
   private boolean help;
 
 
@@ -157,7 +159,7 @@ public class Configuration {
 
 //      binaryImage = cmd.getOptionValue(opt_image);
       traceDir = cmd.getOptionValue(opt_tdir);
-
+      patternType = "cross";
 
       if (!cmd.getArgList().isEmpty())
         appname = (String) cmd.getArgList().get(0);

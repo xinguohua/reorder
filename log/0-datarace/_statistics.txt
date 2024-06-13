@@ -1,5 +1,5 @@
 
- >>>>>>>>>>>>>>>>>> Statistic (pid:549451 from:549445) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>> Statistic (pid:584011 from:584010) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #0 |Start 2 |Join 2 |Alloc 11 |Dealloc 10 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
 R1 0 |R2 0 |R4 0 |R8 2 |W1 0 |W2 0 |W4 1 |W8 2
 RW 0 |RR 0 |Stack ACC 1 |Stack Range ACC 0 |Func Call 991 | Ptr Prop 0

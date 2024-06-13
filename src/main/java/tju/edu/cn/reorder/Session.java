@@ -77,7 +77,7 @@ public class Session {
 
             solver.setCurrentIndexer(indexer);
 
-            List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().iterator(), Reorder.PAR_LEVEL);
+            List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().iterator(), Reorder.PAR_LEVEL, config.patternType);
 
             displayRawReorders(rawReorders, indexer, traceLoader, config.outputName);
         }
@@ -184,7 +184,7 @@ public class Session {
 
 
     public List<RawReorder> solveReorderConstr(final Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map,
-                                               Iterator<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> iter, int limit) {
+                                               Iterator<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> iter, int limit, String pattern) {
 
         for (ArrayList<AbstractNode> nodes : map.values()) {
             nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
@@ -200,7 +200,7 @@ public class Session {
             final Pair<MemAccNode, MemAccNode> dependPair = e.value;
 
             cexe.submit(() -> {
-                Result result = solver.searchReorderSchedule(map, switchPair, dependPair);
+                Result result = solver.searchReorderSchedule(map, switchPair, dependPair, pattern);
                 if (result.schedule != null) return new RawReorder(switchPair, dependPair, result.schedule, result.logString);
                 else return null;
 

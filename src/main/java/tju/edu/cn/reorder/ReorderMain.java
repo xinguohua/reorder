@@ -51,6 +51,7 @@ public class ReorderMain {
         }
         Configuration.symbolizer = properties.getProperty("symbolizer");
         config.appname = properties.getProperty("app_name");
+        config.patternType = properties.getProperty("pattern");
 
         LOG.info("app_name {}; trace_dir {}.", config.appname, config.traceDir);
 

@@ -1,0 +1,390 @@
+
+ >>>>>>>>>>>>>>>>>> Statistic (pid:578544 from:578538) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#0 |Start 96 |Join 96 |Alloc 575 |Dealloc 572 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 0 |R8 0 |W1 0 |W2 0 |W4 0 |W8 96
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 182333 | Ptr Prop 0
+Total stored events: 183768, size: 3681777
+#1 |Start 0 |Join 0 |Alloc 3 |Dealloc 2 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 1 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 13 | Ptr Prop 0
+Total stored events: 21, size: 486
+#2 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 2 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 16, size: 388
+#3 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 3 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 17, size: 425
+#4 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 4 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 18, size: 462
+#5 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 5 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 19, size: 499
+#6 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 6 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 20, size: 536
+#7 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 7 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 21, size: 573
+#8 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 8 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 22, size: 610
+#9 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 9 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 23, size: 647
+#10 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 10 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 24, size: 684
+#11 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 11 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 25, size: 721
+#12 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 12 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 26, size: 758
+#13 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 13 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 27, size: 795
+#14 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 14 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 28, size: 832
+#15 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 15 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 29, size: 869
+#16 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 16 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 30, size: 906
+#17 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 17 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 31, size: 943
+#18 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 18 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 32, size: 980
+#19 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 19 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 33, size: 1017
+#20 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 20 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 34, size: 1054
+#21 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 21 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 35, size: 1091
+#22 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 22 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 36, size: 1128
+#23 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 23 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 37, size: 1165
+#24 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 21 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 35, size: 1091
+#25 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 24 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 38, size: 1202
+#26 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 25 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 39, size: 1239
+#27 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 26 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 40, size: 1276
+#28 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 27 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 41, size: 1313
+#29 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 28 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 42, size: 1350
+#30 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 29 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 43, size: 1387
+#31 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 30 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 44, size: 1424
+#32 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 31 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 45, size: 1461
+#33 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 32 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 46, size: 1498
+#34 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 33 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 47, size: 1535
+#35 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 34 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 48, size: 1572
+#36 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 25 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 39, size: 1239
+#37 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 35 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 49, size: 1609
+#38 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 36 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 50, size: 1646
+#39 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 37 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 51, size: 1683
+#40 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 38 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 52, size: 1720
+#41 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 39 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 53, size: 1757
+#42 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 40 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 54, size: 1794
+#43 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 41 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 55, size: 1831
+#44 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 42 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 56, size: 1868
+#45 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 36 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 50, size: 1646
+#46 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 43 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 57, size: 1905
+#47 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 44 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 58, size: 1942
+#48 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 45 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 59, size: 1979
+#49 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 46 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 60, size: 2016
+#50 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 47 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 61, size: 2053
+#51 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 48 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 62, size: 2090
+#52 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 49 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 63, size: 2127
+#53 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 19 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 33, size: 1017
+#54 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 50 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 64, size: 2164
+#55 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 51 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 65, size: 2201
+#56 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 52 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 66, size: 2238
+#57 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 53 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 67, size: 2275
+#58 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 54 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 68, size: 2312
+#59 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 55 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 69, size: 2349
+#60 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 56 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 70, size: 2386
+#61 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 57 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 71, size: 2423
+#62 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 58 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 72, size: 2460
+#63 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 59 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 73, size: 2497
+#64 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 60 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 74, size: 2534
+#65 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 61 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 75, size: 2571
+#66 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 62 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 76, size: 2608
+#67 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 34 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 48, size: 1572
+#68 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 63 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 77, size: 2645
+#69 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 17 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 31, size: 943
+#70 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 64 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 78, size: 2682
+#71 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 65 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 79, size: 2719
+#72 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 11 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 25, size: 721
+#73 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 66 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 80, size: 2756
+#74 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 67 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 81, size: 2793
+#75 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 28 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 42, size: 1350
+#76 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 68 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 82, size: 2830
+#77 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 69 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 83, size: 2867
+#78 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 70 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 84, size: 2904
+#79 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 6 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 20, size: 536
+#80 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 71 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 85, size: 2941
+#81 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 72 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 86, size: 2978
+#82 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 73 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 87, size: 3015
+#83 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 37 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 51, size: 1683
+#84 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 74 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 88, size: 3052
+#85 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 39 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 53, size: 1757
+#86 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 75 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 89, size: 3089
+#87 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 76 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 90, size: 3126
+#88 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 77 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 91, size: 3163
+#89 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 78 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 92, size: 3200
+#90 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 79 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 93, size: 3237
+#91 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 1 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 15, size: 351
+#92 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 80 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 94, size: 3274
+#93 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 81 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 95, size: 3311
+#94 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 82 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 96, size: 3348
+#95 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 83 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 97, size: 3385
+#96 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 84 |R8 0 |W1 0 |W2 0 |W4 2 |W8 0
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 12 | Ptr Prop 0
+Total stored events: 98, size: 3422

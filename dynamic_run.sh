@@ -39,7 +39,8 @@ sleep_command="sleep 5"
 execute_command "$sleep_command"
 
 # 设置UFO环境变量并运行二进制文件
-docker exec $DOCKER_CONTAINER_ID sh -c "UFO_ON=1 UFO_CALL=1 UFO_TDIR=$UFO_TEST_TRACE_DIR UFO_TL_BUF=$UFO_TL_BUF_SIZE /ufo/reorder/$BINARY"
+#docker exec $DOCKER_CONTAINER_ID sh -c "UFO_ON=1 UFO_CALL=1 UFO_TDIR=$UFO_TEST_TRACE_DIR UFO_TL_BUF=$UFO_TL_BUF_SIZE /ufo/reorder/$BINARY"
+docker exec $DOCKER_CONTAINER_ID sh -c "timeout 300 sh -c 'UFO_ON=1 UFO_CALL=1 UFO_TDIR=$UFO_TEST_TRACE_DIR UFO_TL_BUF=$UFO_TL_BUF_SIZE /ufo/reorder/$BINARY'"
 
 # 循环直到UFO_TEST_TRACE_PATH不为空或超过20秒
 UFO_TEST_TRACE_PATH=""

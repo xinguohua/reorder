@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Pair;
 import tju.edu.cn.reorder.misc.Result;
+import tju.edu.cn.reorder.pattern.*;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.trace.*;
 import tju.edu.cn.z3.Z3Run;
@@ -318,9 +319,8 @@ public class SimpleSolver implements ReorderSolver {
 
 
     // 依赖
-    public Result searchReorderSchedule(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair) {
+    public Result searchReorderSchedule(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair, String patternType) {
         Result res = new Result();
-        boolean doSolve = true;
 
         MemAccNode switchNode1 = switchPair.key;
         MemAccNode switchNode2 = switchPair.value;
@@ -342,33 +342,8 @@ public class SimpleSolver implements ReorderSolver {
             line2 = ((WriteNode) switchNode2).line;
         }
         if (line2 != -1 && line2 == line1) return res;
-        ArrayList<ReadNode> dependReadNodes1 = new ArrayList<>();
-        currentIndexer.getReorderDependentRead1(dependReadNodes1, dependNode1);
-        String obeyStr1 = buildReorderConstrOpt(dependReadNodes1, false);
-        String violateStr1 = buildReorderConstrOpt(dependReadNodes1, true);
-
-        ArrayList<ReadNode> dependReadNodes2 = new ArrayList<>();
-        currentIndexer.getReorderDependentRead1(dependReadNodes2, dependNode2);
-        String obeyStr2 = buildReorderConstrOpt(dependReadNodes2, false);
-        String violateStr2 = buildReorderConstrOpt(dependReadNodes2, true);
-
-
-        ArrayList<ReadNode> swapReadNodes1 = new ArrayList<>();
-        currentIndexer.getReorderDependentRead1(swapReadNodes1, switchNode1);
-        String obeyStr3 = buildReorderConstrOpt(swapReadNodes1, false);
-        String violateStr3 = buildReorderConstrOpt(swapReadNodes1, true);
-
-
-        ArrayList<ReadNode> swapReadNodes2 = new ArrayList<>();
-        currentIndexer.getReorderDependentRead1(swapReadNodes2, switchNode2);
-        String obeyStr4 = buildReorderConstrOpt(swapReadNodes2, false);
-        String violateStr4 = buildReorderConstrOpt(swapReadNodes2, true);
-
-        ArrayList<String> combinations = generateCombinations(violateStr1, violateStr2, violateStr3, violateStr4
-                , obeyStr1, obeyStr2, obeyStr3, obeyStr4);
-        if (combinations.isEmpty()) return res;
-        String finalVio = buildFinalAssert(combinations);
-
+        PatternBuilder constraintStrategy = getConstraintStrategy(patternType);
+        String  finalVio= constraintStrategy.buildReorderAssert(currentIndexer, switchNode1, switchNode2, dependNode1, dependNode2);
 
         // tid: a1 < a2 < a3
         String constrMHB = rebuildIntraThrConstr(map, switchPair);
@@ -386,39 +361,12 @@ public class SimpleSolver implements ReorderSolver {
             ct_constr.push(Reorder.countMatches(csb, "assert"));
         }
 
-        if (!doSolve) return null;
-
         Z3Run task = new Z3Run(config, taskId.getAndIncrement());
         res.schedule = task.buildSchedule(csb);
         return res;
     }
 
 
-    public ArrayList<String> generateCombinations(String violateStr1, String violateStr2, String violateStr3, String violateStr4, String obeyStr1, String obeyStr2, String obeyStr3, String obeyStr4) {
-        ArrayList<String> combinations = new ArrayList<>();
-        if (violateStr1 != null && !violateStr1.isEmpty()) {
-            combinations.add("(and " + violateStr1 + " " + obeyStr2 + " " + obeyStr3 + " " + obeyStr4 + ")\n");
-        }
-        if (violateStr2 != null && !violateStr2.isEmpty()) {
-            combinations.add("(and " + obeyStr1 + " " + violateStr2 + " " + obeyStr3 + " " + obeyStr4 + ")\n");
-        }
-        if (violateStr3 != null && !violateStr3.isEmpty()) {
-            combinations.add("(and " + obeyStr1 + " " + obeyStr2 + " " + violateStr3 + " " + obeyStr4 + ")\n");
-        }
-        if (violateStr4 != null && !violateStr4.isEmpty()) {
-            combinations.add("(and " + obeyStr1 + " " + obeyStr2 + " " + obeyStr3 + " " + violateStr4 + ")\n");
-        }
-        return combinations;
-    }
-
-    public String buildFinalAssert(ArrayList<String> combinations) {
-        StringBuilder finalAssert = new StringBuilder("(assert (or ");
-        for (String combination : combinations) {
-            finalAssert.append(combination.trim()).append(" ");
-        }
-        finalAssert.append("))\n");
-        return finalAssert.toString();
-    }
 
     @Override
     public boolean canReach(AbstractNode node1, AbstractNode node2) {
@@ -435,5 +383,20 @@ public class SimpleSolver implements ReorderSolver {
         this.constrCasual = null;
         this.taskId.set(0);
         this.reachEngine = null;
+    }
+
+    private PatternBuilder getConstraintStrategy(String strategyType) {
+
+        PatternType patternType = PatternType.fromString(strategyType);
+        switch (patternType) {
+            case Cross:
+                return new CrossPatternBuilder();
+            case Single:
+                return new SinglePatternBuilder();
+            case Initial:
+                return new InitialPatternBuilder();
+            default:
+                throw new IllegalArgumentException("Unknown strategy type: " + strategyType);
+        }
     }
 }

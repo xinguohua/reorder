@@ -1,0 +1,14 @@
+
+ >>>>>>>>>>>>>>>>>> Statistic (pid:583041 from:583040) >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#0 |Start 2 |Join 2 |Alloc 11 |Dealloc 10 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 0 |R8 2 |W1 0 |W2 0 |W4 0 |W8 2
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 1014 | Ptr Prop 0
+Total stored events: 1043, size: 21027
+#1 |Start 0 |Join 0 |Alloc 3 |Dealloc 2 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 2 |R8 5 |W1 0 |W2 0 |W4 1 |W8 2
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 6 | Ptr Prop 0
+Total stored events: 21, size: 633
+#2 |Start 0 |Join 0 |Alloc 0 |Dealloc 0 |Lock 0 |Unlock 0 |Cond Wait 0 |Cond Signal 0 | Cond BC 0
+R1 0 |R2 0 |R4 0 |R8 3 |W1 0 |W2 0 |W4 2 |W8 1
+RW 0 |RR 0 |Stack ACC 0 |Stack Range ACC 0 |Func Call 5 | Ptr Prop 0
+Total stored events: 11, size: 338

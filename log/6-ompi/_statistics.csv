@@ -1,0 +1,5 @@
+583872 -> 583873
+TID,Start,Join,Alloc,Dealloc,Lock,Unlock,Cond Wait,Cond Signal,Cond BC,R1,R2,R4,R8,W1,W2,W4,W8,RW,RR,Stack ACC,Stack Range ACC,Func Call, Ptr PropTotal,size
+0,2,2,11,10,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,989,0,1018, 20527
+1,0,0,3,2,0,0,0,0,0,9,0,1,0,1,0,0,0,0,0,0,0,18,0,34, 852
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,10,0,12, 271
