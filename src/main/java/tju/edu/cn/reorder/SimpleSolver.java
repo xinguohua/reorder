@@ -8,7 +8,10 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Pair;
 import tju.edu.cn.reorder.misc.Result;
-import tju.edu.cn.reorder.pattern.*;
+import tju.edu.cn.reorder.pattern.asser.AssertContext;
+import tju.edu.cn.reorder.pattern.asser.PatternAssert;
+import tju.edu.cn.reorder.pattern.asser.PatternAssertFactory;
+import tju.edu.cn.reorder.pattern.builder.*;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.trace.*;
 import tju.edu.cn.z3.Z3Run;
@@ -318,15 +321,15 @@ public class SimpleSolver implements ReorderSolver {
     }
 
 
-    // 依赖
-    public Result searchReorderSchedule(Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Pair<MemAccNode, MemAccNode> switchPair, Pair<MemAccNode, MemAccNode> dependPair, String patternType) {
+    public Result searchReorderSchedule(SearchContext searchContext) {
         Result res = new Result();
+        Pair<MemAccNode, MemAccNode> switchPair = searchContext.getSwitchPair();
+        Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map = searchContext.getMap();
+        searchContext.setCurrentIndexer(currentIndexer);
 
         MemAccNode switchNode1 = switchPair.key;
         MemAccNode switchNode2 = switchPair.value;
 
-        MemAccNode dependNode1 = dependPair.key;
-        MemAccNode dependNode2 = dependPair.value;
 
         // swap contition
         int line1 = -1;
@@ -342,8 +345,11 @@ public class SimpleSolver implements ReorderSolver {
             line2 = ((WriteNode) switchNode2).line;
         }
         if (line2 != -1 && line2 == line1) return res;
-        PatternBuilder constraintStrategy = getConstraintStrategy(patternType);
-        String  finalVio= constraintStrategy.buildReorderAssert(currentIndexer, switchNode1, switchNode2, dependNode1, dependNode2);
+
+
+        PatternAssert patternAssert = PatternAssertFactory.getPatternBuilder(config.patternType);
+        AssertContext assertContext = patternAssert.buildAssertContext(searchContext);
+        String finalVio = patternAssert.buildReorderAssert(assertContext);
 
         // tid: a1 < a2 < a3
         String constrMHB = rebuildIntraThrConstr(map, switchPair);
@@ -351,7 +357,7 @@ public class SimpleSolver implements ReorderSolver {
         String switchNode2Str = makeVariable(switchNode2);
 
         String csb = CONS_SETLOGIC + constrDeclare + constrMHB + constrSync + finalVio + "(assert (< " + switchNode2Str + " " + switchNode1Str + " ))" + CONS_CHECK_GETMODEL;
-         res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
+        res.logString = "CONS_SETLOGIC: " + CONS_SETLOGIC + "\n" +
                 "constrDeclare: " + constrDeclare + "\n" +
                 "constrMHB: " + constrMHB + "\n" +
                 "constrSync: " + constrSync + "\n" +
@@ -365,8 +371,6 @@ public class SimpleSolver implements ReorderSolver {
         res.schedule = task.buildSchedule(csb);
         return res;
     }
-
-
 
     @Override
     public boolean canReach(AbstractNode node1, AbstractNode node2) {
@@ -383,20 +387,5 @@ public class SimpleSolver implements ReorderSolver {
         this.constrCasual = null;
         this.taskId.set(0);
         this.reachEngine = null;
-    }
-
-    private PatternBuilder getConstraintStrategy(String strategyType) {
-
-        PatternType patternType = PatternType.fromString(strategyType);
-        switch (patternType) {
-            case Cross:
-                return new CrossPatternBuilder();
-            case Single:
-                return new SinglePatternBuilder();
-            case Initial:
-                return new InitialPatternBuilder();
-            default:
-                throw new IllegalArgumentException("Unknown strategy type: " + strategyType);
-        }
     }
 }

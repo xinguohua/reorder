@@ -1,23 +1,16 @@
 package tju.edu.cn.reorder;
 
 
-import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Addr2line;
-import tju.edu.cn.reorder.misc.Pair;
-import tju.edu.cn.reorder.misc.RawReorder;
-import tju.edu.cn.reorder.misc.Result;
+import tju.edu.cn.reorder.pattern.builder.PatternBuilder;
+import tju.edu.cn.reorder.pattern.builder.PatternBuilderFactory;
 import tju.edu.cn.reorder.trace.EventLoader;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.reorder.trace.TLEventSeq;
-import tju.edu.cn.trace.AbstractNode;
-import tju.edu.cn.trace.MemAccNode;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -66,85 +59,23 @@ public class Session {
 
             //1. set the number of threads
             //2. assign index to each thread
-            indexer.processNode(config.only_dynamic);
+            indexer.processNode();
             loadedEventCount += indexer.metaInfo.rawNodeCount;
 
-
-            Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> reorderPairMaps = indexer.getReorderPairMap();
-            if (reorderPairMaps == null || reorderPairMaps.isEmpty()) return;
 
             prepareConstraints(indexer);
 
             solver.setCurrentIndexer(indexer);
 
-            List<RawReorder> rawReorders = solveReorderConstr(indexer.getTSTid2sqeNodes(), indexer.getReorderPairMap().iterator(), Reorder.PAR_LEVEL, config.patternType);
-
-            displayRawReorders(rawReorders, indexer, traceLoader, config.outputName);
+            PatternBuilder patternBuilder = PatternBuilderFactory.getPatternBuilder(config.patternType, solver);
+            Set set = patternBuilder.loadData(indexer.getRacePairsList(), config.only_dynamic);
+            if (set == null || set.isEmpty()) return;
+            List rawReorders = patternBuilder.solveReorderConstr(indexer.getTSTid2sqeNodes(), set.iterator(), Reorder.PAR_LEVEL);
+            patternBuilder.displayRawReorders(rawReorders, indexer, traceLoader, config.outputName);
         }
         exe.shutdownNow();
     }
 
-
-    public static void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader, String outputName) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(outputName))) {
-
-            for (RawReorder rawReorder : rawReorders) {
-                String header = "RawReorder:";
-                System.out.println(header);
-                writer.println(header);
-
-                String logString = "  constr: " + rawReorder.logString;
-                System.out.println(logString);
-                writer.println(logString);
-
-
-                String switchPair = "  Switch Pair: " + rawReorder.switchPair;
-                System.out.println(switchPair);
-                writer.println(switchPair);
-
-                String dependPair = "  Depend Pair: " + rawReorder.dependPair;
-                System.out.println(dependPair);
-                writer.println(dependPair);
-
-                String scheduleHeader = "  Schedule:";
-                System.out.println(scheduleHeader);
-                writer.println(scheduleHeader);
-
-                for (String s : rawReorder.schedule) {
-                    String[] parts = s.split("-");
-                    short tid = Short.parseShort(parts[1]);
-                    String color = traceLoader.threadColorMap.get(tid);
-                    AbstractNode node = indexer.getAllNodeMap().get(s);
-
-                    String nodeString = node != null ? node.toString() : "[Node not found]";
-                    String line = color + "    " + s + "    " + nodeString + "\u001B[0m";
-
-                    if (isPartOfPair(rawReorder.switchPair, node)) {
-                        line += " * Swap";
-                    } else if (isPartOfPair(rawReorder.dependPair, node)) {
-                        line += " * Depend";
-                    }
-
-                    System.out.println(line);  // Print colored line to console
-                    writer.println(line);       // Write colored line to file
-                }
-                System.out.println();
-                writer.println();
-            }
-        } catch (IOException e) {
-            LOG.error("An error occurred: {}", e.getMessage(), e);
-        }
-    }
-
-
-    private static boolean isPartOfPair(Pair<MemAccNode, MemAccNode> pair, AbstractNode node) {
-        // Check if node matches either part of the pair
-        return node != null && (nodeMatchesMemAccNode(node, pair.key) || nodeMatchesMemAccNode(node, pair.value));
-    }
-
-    private static boolean nodeMatchesMemAccNode(AbstractNode node, AbstractNode node1) {
-        return node.gid == node1.gid && node.tid == node1.tid;
-    }
 
 
     public void printTraceStats() {
@@ -183,43 +114,6 @@ public class Session {
     }
 
 
-    public List<RawReorder> solveReorderConstr(final Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map,
-                                               Iterator<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> iter, int limit, String pattern) {
-
-        for (ArrayList<AbstractNode> nodes : map.values()) {
-            nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
-        }
-
-        CompletionService<RawReorder> cexe = new ExecutorCompletionService<>(exe);
-
-        int task = 0;
-        while (iter.hasNext() && limit > 0) {
-            limit--;
-            Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> e = iter.next();
-            final Pair<MemAccNode, MemAccNode> switchPair = e.key;
-            final Pair<MemAccNode, MemAccNode> dependPair = e.value;
-
-            cexe.submit(() -> {
-                Result result = solver.searchReorderSchedule(map, switchPair, dependPair, pattern);
-                if (result.schedule != null) return new RawReorder(switchPair, dependPair, result.schedule, result.logString);
-                else return null;
-
-            });
-            task++;
-        }
-
-        ArrayList<RawReorder> ls = new ArrayList<>(task);
-        try {
-            while (task-- > 0) {
-                Future<RawReorder> f = cexe.take(); //blocks if none available
-                RawReorder rawReorder = f.get();
-                if (rawReorder != null) ls.add(rawReorder);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return ls;
-    }
 
 
     protected void prepareConstraints(Indexer indexer) {
