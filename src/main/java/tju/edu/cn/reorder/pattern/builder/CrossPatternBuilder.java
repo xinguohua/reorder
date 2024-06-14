@@ -31,7 +31,8 @@ public class CrossPatternBuilder extends AbstractPatternBuilder<Pair<Pair<MemAcc
 
 
     @Override
-    public Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> loadData(List<Pair<MemAccNode, MemAccNode>> racePairsList, boolean onlyDynamic) {
+    public Set<Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>>> loadData(boolean onlyDynamic) {
+        List<Pair<MemAccNode, MemAccNode>> racePairsList = solver.getCurrentIndexer().getRacePairsList();
         if (onlyDynamic) {
             for (int i = 0; i < racePairsList.size(); i++) {
                 for (int j = i + 1; j < racePairsList.size(); j++) {
@@ -68,7 +69,8 @@ public class CrossPatternBuilder extends AbstractPatternBuilder<Pair<Pair<MemAcc
     }
 
     @Override
-    public void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader, String outputName) {
+    public void displayRawReorders(List<RawReorder> rawReorders, EventLoader traceLoader, String outputName) {
+        Indexer indexer = solver.getCurrentIndexer();
         try (PrintWriter writer = new PrintWriter(new FileWriter(outputName))) {
 
             for (RawReorder rawReorder : rawReorders) {

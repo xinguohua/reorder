@@ -14,11 +14,9 @@ import tju.edu.cn.trace.*;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -36,7 +34,7 @@ public class EventLoader {
             "\u001B[37m"  // White
     };
 
-    public Map<Short, String> threadColorMap = new HashMap<Short, String>();
+    public Map<Short, String> threadColorMap = new HashMap<>();
 
     Map<Short, TLEventSeq> fileSeqinfo = new HashMap<>();
 
@@ -46,47 +44,36 @@ public class EventLoader {
     public final String folderName;
     public final Short2ObjectRBTreeMap<FileInfo> fileInfoMap;
     private final ShortOpenHashSet aliveTids = new ShortOpenHashSet(80);
-    private int totalNumOfThreads;
     private ShortOpenHashSet allThreads = new ShortOpenHashSet(80);
-    ;
-
-    // total size
-    private int windowSize;
 
     public final CModuleList moduleList = new CModuleList();
 
     public EventLoader(ExecutorService exe, String folderName) {
         this.exe = exe;
         this.folderName = folderName;
-        fileInfoMap = new Short2ObjectRBTreeMap<FileInfo>();
+        fileInfoMap = new Short2ObjectRBTreeMap<>();
     }
 
-    public void init(int wsz) {
-
-        windowSize = wsz;
-
+    public void init() {
         final File dir = new File(folderName);
-        File[] traces = dir.listFiles(new FileFilter() {
-            public boolean accept(File f) {
-                if (!f.canRead()) {
-                    throw new IllegalArgumentException("Could not read file " + f + "  at " + dir);
-                }
-                return f.isFile();
+        File[] traces = dir.listFiles(f -> {
+            if (!f.canRead()) {
+                throw new IllegalArgumentException("Could not read file " + f + "  at " + dir);
             }
+            return f.isFile();
         });
         if (traces == null) throw new RuntimeException("Could not find folder " + folderName);
         if (traces.length == 0) throw new IllegalArgumentException("No trace file found at " + folderName);
-//    int flimt = 2;
-
 
         for (File f : traces) {
-            if (Reorder.MODULE_TXT.equals(f.getName())) {
-                loadCModuleInfo(f);
-                continue;
-            } else if (Reorder.STAT_TXT.equals(f.getName())) {
-                continue;
-            } else if (Reorder.STAT_CSV.equals(f.getName())) {
-                continue;
+            switch (f.getName()) {
+                case Reorder.MODULE_TXT:
+                    loadCModuleInfo(f);
+                    continue;
+                case Reorder.STAT_TXT:
+                    continue;
+                case Reorder.STAT_CSV:
+                    continue;
             }
             short tid = Short.parseShort(f.getName());
             long sz = f.length();
@@ -95,7 +82,6 @@ public class EventLoader {
             threadColorMap.put(tid,  COLORS[tid% COLORS.length]);
             allThreads.add(tid);
         }
-        totalNumOfThreads = allThreads.size();
 
         if (moduleList.size() < 1) LOG.error("Empty module info " + moduleList);
 
@@ -118,15 +104,11 @@ public class EventLoader {
 
     void loadCModuleInfo(File f) {
         BufferedReader reader = null;
-        boolean mainExeLoaded = false;
         try {
             reader = new BufferedReader(new FileReader(f));
             String line = reader.readLine();
             while (null != line) {
                 String[] infoLs = line.split("\\|");
-//        if (infoLs.length < 8)
-//          break;
-                //if ((infoLs.length - 2 ) % 3 != 0) throw new IllegalArgumentException("module info format error " + f);
                 int idx = 0;
                 String moduleFullName = infoLs[idx++]; // name with path
 
@@ -169,8 +151,6 @@ public class EventLoader {
     public void updateIndexerWithAliveThreads(Indexer mIdx) {
         int tidCount = aliveTids.size();
         ShortOpenHashSet currentTids = new ShortOpenHashSet(aliveTids);
-        final int ptLimit = windowSize;
-
         HashSet<Short> visited = new HashSet<>();
         while (!currentTids.isEmpty()) {
             ShortOpenHashSet nextTids = addTLSeq1(mIdx, currentTids, visited);
@@ -206,17 +186,6 @@ public class EventLoader {
     private void updateAliveTids(ShortOpenHashSet newTids) {
         newTids.removeAll(aliveTids);
         aliveTids.addAll(newTids);
-    }
-
-    private void removeEOFTraceFiles() {
-        Iterator<Map.Entry<Short, FileInfo>> iter = fileInfoMap.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<Short, FileInfo> e = iter.next();
-            FileInfo info = e.getValue();
-            if (info.fileOffset >= info.fsize - 5) {
-                iter.remove();
-            }
-        }
     }
 
     private void removeVisitSeq(HashSet<Short> visited) {

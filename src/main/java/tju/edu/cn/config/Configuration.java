@@ -38,7 +38,6 @@ import java.util.StringTokenizer;
 
 public class Configuration {
 
-//  public final static String opt_image = "e";
   public final static String opt_tdir = "tdir";
 
   public final static String opt_help = "help";
@@ -157,7 +156,6 @@ public class Configuration {
         printUsageAndExit();
       }
 
-//      binaryImage = cmd.getOptionValue(opt_image);
       traceDir = cmd.getOptionValue(opt_tdir);
       patternType = "cross";
 

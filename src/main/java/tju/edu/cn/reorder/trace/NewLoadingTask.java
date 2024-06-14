@@ -1,6 +1,5 @@
 package tju.edu.cn.reorder.trace;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tju.edu.cn.reorder.misc.Addr2line;
@@ -67,8 +66,6 @@ public class NewLoadingTask{
                 node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
                 seq.events.add(node);
             }
-
-
             br.finish(fileInfo);
         } catch (Exception e) {
             LOG.error("error parsing trace " + tid, e);

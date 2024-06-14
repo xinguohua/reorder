@@ -201,6 +201,11 @@ public class SimpleSolver implements ReorderSolver {
         this.currentIndexer = indexer;
     }
 
+    public Indexer getCurrentIndexer() {
+        return currentIndexer;
+    }
+
+
 
     public String buildReorderConstrOpt(ArrayList<ReadNode> allReadNodes, boolean influence) {
 

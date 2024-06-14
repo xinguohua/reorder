@@ -4,7 +4,7 @@ import tju.edu.cn.reorder.SimpleSolver;
 import tju.edu.cn.reorder.pattern.PatternType;
 
 public class PatternBuilderFactory {
-    public static PatternBuilder getPatternBuilder(String strategyType, SimpleSolver solver) {
+    public static PatternBuilder<?> getPatternBuilder(String strategyType, SimpleSolver solver) {
         PatternType patternType = PatternType.fromString(strategyType);
         switch (patternType) {
             case Cross:

@@ -133,8 +133,6 @@ public class Indexer {
     }
 
     public void processReorderNodes(LongOpenHashSet sharedAddrSet) {
-
-
         for (Short2ObjectOpenHashMap.Entry<ArrayList<AbstractNode>> entry : _rawTid2seq.short2ObjectEntrySet()) {
             short tid = entry.getShortKey();
             ArrayList<AbstractNode> tidNodes = shared.tid2sqeNodes.computeIfAbsent(tid, k -> new ArrayList<>());

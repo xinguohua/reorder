@@ -37,11 +37,12 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
     public abstract PatternType getPatternType();
 
     @Override
-    public abstract Set<T> loadData(List<Pair<MemAccNode, MemAccNode>> racePairsList, boolean onlyDynamic);
+    public abstract Set<T> loadData(boolean onlyDynamic);
 
 
-
-    public List<RawReorder> solveReorderConstr(final Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, Iterator<T> iter, int limit) {
+    @Override
+    public List<RawReorder> solveReorderConstr( Iterator<T> iter, int limit) {
+        Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map = solver.getCurrentIndexer().getTSTid2sqeNodes();
         for (ArrayList<AbstractNode> nodes : map.values()) {
             nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
         }
@@ -71,6 +72,8 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }finally {
+            exe.shutdownNow();
         }
         return ls;
     }

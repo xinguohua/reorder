@@ -7,7 +7,6 @@ import tju.edu.cn.reorder.misc.RawReorder;
 import tju.edu.cn.reorder.misc.Result;
 import tju.edu.cn.reorder.pattern.PatternType;
 import tju.edu.cn.reorder.trace.EventLoader;
-import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.trace.AbstractNode;
 import tju.edu.cn.trace.MemAccNode;
 
@@ -27,12 +26,12 @@ public class InitialPatternBuilder extends AbstractPatternBuilder<Pair<MemAccNod
 
 
     @Override
-    public Set<Pair<MemAccNode, MemAccNode>> loadData(List<Pair<MemAccNode, MemAccNode>> racePairsList, boolean onlyDynamic) {
+    public Set<Pair<MemAccNode, MemAccNode>> loadData(boolean onlyDynamic) {
         return data;
     }
 
     @Override
-    public void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader, String outputName) {
+    public void displayRawReorders(List<RawReorder> rawReorders, EventLoader traceLoader, String outputName) {
 
     }
 

@@ -30,7 +30,8 @@ public class SinglePatternBuilder extends AbstractPatternBuilder<Pair<MemAccNode
 
 
     @Override
-    public Set<Pair<MemAccNode, MemAccNode>> loadData(List<Pair<MemAccNode, MemAccNode>> racePairsList, boolean onlyDynamic) {
+    public Set<Pair<MemAccNode, MemAccNode>> loadData(boolean onlyDynamic) {
+        List<Pair<MemAccNode, MemAccNode>> racePairsList = solver.getCurrentIndexer().getRacePairsList();
         if (onlyDynamic) {
             for (Pair<MemAccNode, MemAccNode> pair1 : racePairsList) {
                 Pair<MemAccNode, MemAccNode> result = isSinglePattern(pair1);
@@ -44,7 +45,8 @@ public class SinglePatternBuilder extends AbstractPatternBuilder<Pair<MemAccNode
     }
 
     @Override
-    public void displayRawReorders(List<RawReorder> rawReorders, Indexer indexer, EventLoader traceLoader, String outputName) {
+    public void displayRawReorders(List<RawReorder> rawReorders, EventLoader traceLoader, String outputName) {
+        Indexer indexer = solver.getCurrentIndexer();
         try (PrintWriter writer = new PrintWriter(new FileWriter(outputName))) {
 
             for (RawReorder rawReorder : rawReorders) {

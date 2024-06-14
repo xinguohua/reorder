@@ -1,16 +1,17 @@
 package tju.edu.cn.reorder;
 
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tju.edu.cn.config.Configuration;
 import tju.edu.cn.reorder.misc.Addr2line;
+import tju.edu.cn.reorder.misc.RawReorder;
 import tju.edu.cn.reorder.pattern.builder.PatternBuilder;
 import tju.edu.cn.reorder.pattern.builder.PatternBuilderFactory;
 import tju.edu.cn.reorder.trace.EventLoader;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.reorder.trace.TLEventSeq;
+
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -32,10 +33,6 @@ public class Session {
         solver = new SimpleSolver(config);
     }
 
-
-    int loadedEventCount = 0;
-
-
     public void init() {
 
         addr2line = new Addr2line(traceLoader.getModuleList());
@@ -46,7 +43,7 @@ public class Session {
                     / 0.7);
             LOG.info("Suggested window size {}", windowSize);
         }
-        traceLoader.init(windowSize);
+        traceLoader.init();
     }
 
     public void start() {
@@ -55,27 +52,26 @@ public class Session {
         printTraceStats();
         while (traceLoader.hasNext()) {
             Indexer indexer = new Indexer();
+            // load
             traceLoader.updateIndexerWithAliveThreads(indexer);
 
-            //1. set the number of threads
-            //2. assign index to each thread
+            // node && Constraint
             indexer.processNode();
-            loadedEventCount += indexer.metaInfo.rawNodeCount;
-
-
             prepareConstraints(indexer);
 
-            solver.setCurrentIndexer(indexer);
-
-            PatternBuilder patternBuilder = PatternBuilderFactory.getPatternBuilder(config.patternType, solver);
-            Set set = patternBuilder.loadData(indexer.getRacePairsList(), config.only_dynamic);
-            if (set == null || set.isEmpty()) return;
-            List rawReorders = patternBuilder.solveReorderConstr(indexer.getTSTid2sqeNodes(), set.iterator(), Reorder.PAR_LEVEL);
-            patternBuilder.displayRawReorders(rawReorders, indexer, traceLoader, config.outputName);
+            // pattern process
+            patternBuildProcess(indexer);
         }
-        exe.shutdownNow();
     }
 
+    private void patternBuildProcess(Indexer indexer) {
+        solver.setCurrentIndexer(indexer);
+        PatternBuilder<?> patternBuilder = PatternBuilderFactory.getPatternBuilder(config.patternType, solver);
+        Set set = patternBuilder.loadData(config.only_dynamic);
+        if (set == null || set.isEmpty()) return;
+        List<RawReorder> rawReorders = patternBuilder.solveReorderConstr(set.iterator(), Reorder.PAR_LEVEL);
+        patternBuilder.displayRawReorders(rawReorders, traceLoader, config.outputName);
+    }
 
 
     public void printTraceStats() {
@@ -112,8 +108,6 @@ public class Session {
         System.out.println("Total Write Events: " + towrites);
         System.out.println("Total Events: " + TLEventSeq.stat.c_total);
     }
-
-
 
 
     protected void prepareConstraints(Indexer indexer) {

@@ -38,13 +38,13 @@ public class ReorderMain {
         properties.load(fin);
         config.traceDir = properties.getProperty("trace_dir");
         config.outputName = "./output/";
-        if (config.traceDir != null){
+        if (config.traceDir != null) {
             int lastSlashIndex = config.traceDir.lastIndexOf('/');
             if (lastSlashIndex == -1) {
                 config.outputName += config.traceDir;
             }
             config.outputName += config.traceDir.substring(lastSlashIndex + 1);
-        }else {
+        } else {
             LocalDateTime currentTime = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
             config.outputName += currentTime.format(formatter);
