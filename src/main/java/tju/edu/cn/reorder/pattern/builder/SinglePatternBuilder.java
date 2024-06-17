@@ -63,10 +63,6 @@ public class SinglePatternBuilder extends AbstractPatternBuilder<Pair<MemAccNode
                 System.out.println(switchPair);
                 writer.println(switchPair);
 
-                String dependPair = "  Depend Pair: " + rawReorder.dependPair;
-                System.out.println(dependPair);
-                writer.println(dependPair);
-
                 String scheduleHeader = "  Schedule:";
                 System.out.println(scheduleHeader);
                 writer.println(scheduleHeader);

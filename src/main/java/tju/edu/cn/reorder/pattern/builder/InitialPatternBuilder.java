@@ -32,7 +32,7 @@ public class InitialPatternBuilder extends AbstractPatternBuilder<Pair<MemAccNod
 
     @Override
     public void displayRawReorders(List<RawReorder> rawReorders, EventLoader traceLoader, String outputName) {
-
+        // todo 识别new
     }
 
     @Override

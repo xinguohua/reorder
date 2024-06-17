@@ -48,6 +48,7 @@ public class SinglePatternAssert extends AbstractPatternAssert {
 
         ArrayList<String> combinations = generateCombinations(violateStr1, violateStr2, obeyStr1, obeyStr2);
         if (combinations.isEmpty()) return null;
+        // todo 检查屏障 accuire-release
         return buildFinalAssert(combinations);
     }
 

@@ -122,7 +122,6 @@ public class EventLoader {
                 String newModuleFullName = moduleFullName.replace(target, replacement);
 
                 try {
-                    // TODO: check to make sure switch from parseLong to parseUnsignedLong didn't break existing code ANDREW
                     long base = Long.parseUnsignedLong(infoLs[idx++].trim(), 16);
                     //JEFF
                     long max = Long.parseUnsignedLong(infoLs[idx++].trim(), 16);

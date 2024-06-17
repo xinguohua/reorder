@@ -108,7 +108,6 @@ public class NewReachEngine {
         if (tidVC == null) {
             Short idx = tid2IndexMap.get(tid);
             if (idx == null) {
-                //TODO: need a better fix
                 idx = 0;
 //	    		 idx = (short) tid2IndexMap.size();
 //	    		 tid2IndexMap.put(tid, idx);
