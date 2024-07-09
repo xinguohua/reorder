@@ -127,7 +127,7 @@ public class CrossPatternBuilder extends AbstractPatternBuilder<Pair<Pair<MemAcc
     }
 
     @Override
-    public SearchContext buildSearchContext(Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
+    public SearchContext doBuildSearchContext(Pair<Pair<MemAccNode, MemAccNode>, Pair<MemAccNode, MemAccNode>> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
         SearchContext searchContext = new SearchContext();
         final Pair<MemAccNode, MemAccNode> switchPair = e.key;
         final Pair<MemAccNode, MemAccNode> dependPair = e.value;

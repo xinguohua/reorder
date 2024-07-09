@@ -9,13 +9,9 @@ import java.util.HashMap;
 
 public class NewReachEngine {
 
-
     public static Short2ObjectOpenHashMap<AbstractNode> tidFirstNode = new Short2ObjectOpenHashMap<AbstractNode>(Reorder.INITSZ_S / 2);
     public static Short2ObjectOpenHashMap<AbstractNode> tidLastNode = new Short2ObjectOpenHashMap<AbstractNode>(Reorder.INITSZ_S / 2);
-
     public static ArrayList<ISyncNode> orderedSyncNodeList = new ArrayList<ISyncNode>(Reorder.INITSZ_SYNC);
-
-
     public static ArrayList<TStartNode> thrStartNodeList = new ArrayList<TStartNode>(Reorder.INITSZ_S * 5);
     public static ArrayList<TJoinNode> joinNodeList = new ArrayList<TJoinNode>(Reorder.INITSZ_S * 5);
 

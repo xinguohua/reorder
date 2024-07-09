@@ -97,7 +97,7 @@ public class SinglePatternBuilder extends AbstractPatternBuilder<Pair<MemAccNode
     }
 
     @Override
-    public SearchContext buildSearchContext(Pair<MemAccNode, MemAccNode> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
+    public SearchContext doBuildSearchContext(Pair<MemAccNode, MemAccNode> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
         SearchContext searchContext = new SearchContext();
         searchContext.setSwitchPair(e);
         searchContext.setPatternType(patternType);

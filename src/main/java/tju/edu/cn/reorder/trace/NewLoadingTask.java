@@ -52,8 +52,6 @@ public class NewLoadingTask{
                             AddrInfo next = addr2line.sourceInfo(nodes).values().iterator().next();
                             if (next != null) node.setAi(String.valueOf(next));
                         }
-
-
                         node.gid = (int) Bytes.longs.add(tid, seq.numOfEvents);
                         LOG.info("Synchronize " + node);
                         seq.events.add(node);
@@ -101,6 +99,7 @@ public class NewLoadingTask{
         long order;
         int line;
         char[] file;
+        int orderType;
 
         int type_idx__ = typeIdx & 0xffffff3f;
 
@@ -221,6 +220,13 @@ public class NewLoadingTask{
                 long ptrAddr = getLong48b(breader);
                 order = getLong48b(breader);
                 return null;
+            case 21:
+                pc = getLong48b(breader);
+                orderType = getInt(breader);
+                order = getLong48b(breader);
+                line = getInt(breader);
+                file = getChars10(breader);
+                return new BarrierNode(curTid, pc, orderType, order, line, file);
             default: // 8 + (13 + 48 -> 64) -> 72 + header (1, 2, 4, 8)
                 int type_idx = typeIdx & 0xffffff3f;
                 if (type_idx <= 13) {

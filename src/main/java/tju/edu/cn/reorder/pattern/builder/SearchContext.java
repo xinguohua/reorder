@@ -5,9 +5,11 @@ import tju.edu.cn.reorder.misc.Pair;
 import tju.edu.cn.reorder.pattern.PatternType;
 import tju.edu.cn.reorder.trace.Indexer;
 import tju.edu.cn.trace.AbstractNode;
+import tju.edu.cn.trace.BarrierNode;
 import tju.edu.cn.trace.MemAccNode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchContext {
     private Pair<MemAccNode, MemAccNode> switchPair;
@@ -27,6 +29,26 @@ public class SearchContext {
     private Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map;
 
     private PatternType patternType;
+
+    private List<BarrierNode> barrierList;
+
+    private boolean valid = true;
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public List<BarrierNode> getBarrierList() {
+        return barrierList;
+    }
+
+    public void setBarrierList(List<BarrierNode> barrierList) {
+        this.barrierList = barrierList;
+    }
 
     public PatternType getPatternType() {
         return patternType;

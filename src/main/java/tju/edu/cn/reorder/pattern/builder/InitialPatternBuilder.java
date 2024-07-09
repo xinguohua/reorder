@@ -41,7 +41,7 @@ public class InitialPatternBuilder extends AbstractPatternBuilder<Pair<MemAccNod
     }
 
     @Override
-    public SearchContext buildSearchContext(Pair<MemAccNode, MemAccNode> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
+    protected SearchContext doBuildSearchContext(Pair<MemAccNode, MemAccNode> e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
         return null;
     }
 }

@@ -9,10 +9,12 @@ import tju.edu.cn.reorder.misc.RawReorder;
 import tju.edu.cn.reorder.misc.Result;
 import tju.edu.cn.reorder.pattern.PatternType;
 import tju.edu.cn.trace.AbstractNode;
+import tju.edu.cn.trace.BarrierNode;
 import tju.edu.cn.trace.MemAccNode;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
 
@@ -41,7 +43,7 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
 
 
     @Override
-    public List<RawReorder> solveReorderConstr( Iterator<T> iter, int limit) {
+    public List<RawReorder> solveReorderConstr(Iterator<T> iter, int limit) {
         Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map = solver.getCurrentIndexer().getTSTid2sqeNodes();
         for (ArrayList<AbstractNode> nodes : map.values()) {
             nodes.sort(Comparator.comparingInt(AbstractNode::getGid));
@@ -54,6 +56,9 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
             T e = iter.next();
             PatternType patternType = getPatternType();
             SearchContext searchContext = buildSearchContext(e, map, patternType);
+            if (!searchContext.isValid()){
+                continue;
+            }
             cexe.submit(() -> {
                 Result result = solver.searchReorderSchedule(searchContext);
                 if (result.schedule != null) return buildRawReorder(searchContext, result);
@@ -72,7 +77,7 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             exe.shutdownNow();
         }
         return ls;
@@ -90,5 +95,27 @@ public abstract class AbstractPatternBuilder<T> implements PatternBuilder<T> {
     public abstract RawReorder buildRawReorder(SearchContext searchContext, Result result);
 
 
-    public abstract SearchContext buildSearchContext(T e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType);
+    public SearchContext buildSearchContext(T e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
+        beforeCommonLogic(e, map, patternType);
+        SearchContext searchContext = doBuildSearchContext(e, map, patternType);
+        afterCommonLogic(searchContext);
+        return searchContext;
+    }
+
+    private void beforeCommonLogic(T e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType) {
+        // do nothing
+    }
+
+    private void afterCommonLogic(SearchContext searchContext) {
+        MemAccNode key = searchContext.getSwitchPair().key;
+        MemAccNode value = searchContext.getSwitchPair().value;
+        long first = Math.min(key.order, value.order) - 1;
+        long last = Math.max(key.order, value.order);
+        Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map = searchContext.getMap();
+        List<BarrierNode> barrierList = map.values().stream().flatMap(Collection::stream).filter(node -> node.order >= first && node.order < last && node instanceof BarrierNode).map(node -> (BarrierNode) node).sorted(Comparator.comparingLong(BarrierNode::getOrder)).collect(Collectors.toList());
+        boolean valid = barrierList.stream().noneMatch(node -> node.getOrderType() >= 2);
+        searchContext.setValid(valid);
+    }
+
+    protected abstract SearchContext doBuildSearchContext(T e, Short2ObjectOpenHashMap<ArrayList<AbstractNode>> map, PatternType patternType);
 }
