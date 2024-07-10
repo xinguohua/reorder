@@ -7,7 +7,7 @@ public class InitialPatternAssert extends AbstractPatternAssert {
 
     @Override
     public String buildReorderAssert(AssertContext assertContext) {
-        return null;
+        return "";
     }
 
     @Override

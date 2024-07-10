@@ -57,7 +57,6 @@ public class Session {
 
             // node && Constraint
             indexer.processNode();
-            prepareConstraints(indexer);
 
             // pattern process
             patternBuildProcess(indexer);
@@ -69,6 +68,7 @@ public class Session {
         PatternBuilder<?> patternBuilder = PatternBuilderFactory.getPatternBuilder(config.patternType, solver);
         Set set = patternBuilder.loadData(config.only_dynamic);
         if (set == null || set.isEmpty()) return;
+        prepareConstraints(indexer);
         List<RawReorder> rawReorders = patternBuilder.solveReorderConstr(set.iterator(), Reorder.PAR_LEVEL);
         patternBuilder.displayRawReorders(rawReorders, traceLoader, config.outputName);
     }

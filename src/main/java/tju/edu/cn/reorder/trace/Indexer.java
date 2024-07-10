@@ -35,6 +35,10 @@ public class Indexer {
     protected static final boolean CHECK_MEM_ERROR = true;
 
 
+    public Short2ObjectOpenHashMap<ArrayList<AbstractNode>> getRawTid2seq() {
+        return _rawTid2seq;
+    }
+
     protected Short2ObjectOpenHashMap<ArrayList<AbstractNode>> _rawTid2seq = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
 
     protected Short2ObjectOpenHashMap<ArrayList<AbstractNode>> tid2CallSeq = new Short2ObjectOpenHashMap<>(Reorder.INITSZ_S / 2);
@@ -152,12 +156,26 @@ public class Indexer {
         metaInfo.countAllNodes = getAllNodeSeq().size();
     }
 
-    private void addNodeToSharedAndTid(AbstractNode node, ArrayList<AbstractNode> tidNodes) {
+    public void addNodeToSharedAndTid(AbstractNode node, ArrayList<AbstractNode> tidNodes) {
         if (node != null && !shared.allNodeMap.containsKey(makeVariable(node))) {
             shared.allNodeSeq.add(node);
             shared.allNodeMap.put(makeVariable(node), node);
             tidNodes.add(node);
         }
+    }
+
+
+    public void addNodeToSharedAndTid(AbstractNode node) {
+        if (node != null && !shared.allNodeMap.containsKey(makeVariable(node))) {
+            shared.allNodeSeq.add(node);
+            shared.allNodeMap.put(makeVariable(node), node);
+            ArrayList<AbstractNode> tidNodes = shared.tid2sqeNodes.computeIfAbsent(node.tid, k -> new ArrayList<>());
+            tidNodes.add(node);
+        }
+    }
+
+    public Allocator getAllocator() {
+        return allocator;
     }
 
     private final  Allocator allocator = new Allocator();
@@ -177,13 +195,13 @@ public class Indexer {
                 if (node instanceof AllocNode) {
                     metaInfo.countAlloc++;
                     AllocNode an = (AllocNode) node;
-                    allocator.push(an);
+                    allocator.pushAlloc(an);
 
                 } else if (node instanceof DeallocNode) {
                     // matching delloc with alloc, replacing alloc with dealloc
                     metaInfo.countDealloc++;
                     DeallocNode dnode = (DeallocNode) node;
-                    allocator.insert(dnode);
+                    allocator.pushDealloc(dnode);
                 } else if (node instanceof FuncExitNode || node instanceof FuncEntryNode) {
                     ArrayList<AbstractNode> callseq = tid2CallSeq.get(curTid);
                     if (callseq == null) {
