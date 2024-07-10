@@ -146,7 +146,7 @@ public class InitialPatternBuilder extends AbstractPatternBuilder<Pair<MemAccNod
                                         .filter(node -> node.addr >= allocNode.addr && node.addr <= allocNode.addr + allocNode.length)
                                         .findFirst());
                         if (constructorOpt.isPresent()){
-                            result.add(new Pair<>(writeNode, constructorOpt.get()));
+                            result.add(new Pair<>(constructorOpt.get(), writeNode));
                             indexer.addNodeToSharedAndTid(constructorOpt.get());
                         }
 
