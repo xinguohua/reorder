@@ -27,8 +27,8 @@ execute_command() {
 }
 
 # 使用ThreadSanitizer编译源文件
-#compile_command="docker exec $DOCKER_CONTAINER_ID sh -c \"/ufo/build/bin/clang -fsanitize=thread -g -o0 -Wall /ufo/reorder/$SOURCE_FILE -o /ufo/reorder/$BINARY\""
-compile_command="docker exec $DOCKER_CONTAINER_ID sh -c \"/ufo/build/bin/clang++ -std=c++11 -fsanitize=thread -g -o0 -Wall /ufo/reorder/$SOURCE_FILE -o /ufo/reorder/$BINARY\""
+compile_command="docker exec $DOCKER_CONTAINER_ID sh -c \"/ufo/build/bin/clang -fsanitize=thread -g -o0 -Wall /ufo/reorder/$SOURCE_FILE -o /ufo/reorder/$BINARY\""
+#compile_command="docker exec $DOCKER_CONTAINER_ID sh -c \"/ufo/build/bin/clang++ -std=c++11 -fsanitize=thread -g -o0 -Wall /ufo/reorder/$SOURCE_FILE -o /ufo/reorder/$BINARY\""
 execute_command "$compile_command"
 
 # 删除以ufo_test_trace_开头的文件夹

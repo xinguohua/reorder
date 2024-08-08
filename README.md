@@ -1,15 +1,6 @@
-# 代办
-## 1、代码识别以来那块补充完整
-## 2、survey补充 
-deadlocks accounting for 20\%, memory leaks for 30\%, object initialization anomalies for 30\%
-
-
-docker pull 4ndychin/llvm-ufo
-docker run -it 4ndychin/llvm-ufo
-docker start -i  a7c6c8931ba4
-docker cp /home/nsas2020/fuzz/targetProcess/reorder a7c6c8931ba4:/ufo
-/ufo/build/bin/clang -fsanitize=thread -g -o0 -Wall 0-datarace.cpp -o datarace
-UFO_ON=1 UFO_CALL=1 UFO_TDIR=./ufo_test_trace UFO_TL_BUF=512 ./datarace
-docker cp a7c6c8931ba4:/ufo/reorder/ufo_test_trace_20  .
-/Users/xinguohua/Code/reorder  ufo-predict
-trace_dir=/Users/xinguohua/Code/UFO/ufo-predict/ufo_test_trace_20
+<p>The dynamic part is based on UFO (<a href="https://github.com/xinguohua/UFO">UFO</a>) and includes LLVM instrumentation and prediction components. First, the instrumentation component modifies ThreadSanitizer in LLVM to insert necessary instrumentation into the bytecode file for logging purposes. Next, the prediction tool analyzes the logs recorded by the instrumentation and predicts potential instruction reordering issues.</p>
+<p>You can execute these steps by running a script, for example:</p>
+<pre><code>./dynamic_run.sh 22-openmpi.c
+</code></pre>
+<p>The repository for the instrumentation part can be found at <a href="https://anonymous.4open.science/r/SVF-Data-Race-Detection-Tool-5976">Instrumentation Code</a>.</p>
+<p>The repository for the prediction part can be found at <a href="https://anonymous.4open.science/r/Dynamic-Analysis-Tool-1234">Prediction Code</a>.</p>

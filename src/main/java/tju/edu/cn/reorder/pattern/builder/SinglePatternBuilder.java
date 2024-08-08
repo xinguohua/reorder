@@ -110,7 +110,7 @@ public class SinglePatternBuilder extends AbstractPatternBuilder<Pair<MemAccNode
         // todo 屏障后面补
         MemAccNode first = pair1.key;
         MemAccNode second = pair1.value;
-        return (first.gid < second.gid) ? new Pair<>(first, second) : new Pair<>(second, first);
+        return (first.order < second.order) ? new Pair<>(first, second) : new Pair<>(second, first);
     }
 
 }
